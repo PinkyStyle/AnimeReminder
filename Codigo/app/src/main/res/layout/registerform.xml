@@ -114,7 +114,7 @@
             android:id="@+id/checkBox"
             android:layout_width="299dp"
             android:layout_height="wrap_content"
-            android:text="Acepto "
+            android:text="Acepto los términos y condiciones del servicio."
             android:textColorHighlight="@color/colorPrimaryDark"
             android:textColorLink="#f85f6a"
             android:textCursorDrawable="@color/colorPrimaryDark" />
@@ -132,17 +132,11 @@
             android:textColor="@color/colorText" />
 
         <Button
-            android:id="@+id/btnlogin"
-            android:layout_width="298dp"
+            android:id="@+id/btnregister"
+            android:layout_width="197dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bordes_redondos"
-            android:contextClickable="false"
-            android:ellipsize="start"
-            android:text="Continuar"
-            android:textAllCaps="false"
-            android:textColor="@color/colorWhite"
-            android:textStyle="bold" />
+            android:text="Continuar" />
 
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>
