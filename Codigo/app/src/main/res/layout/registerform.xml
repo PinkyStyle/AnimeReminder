@@ -1,53 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="525dp"
         android:gravity="center"
-        android:orientation="vertical"
-        android:elevation="0dp">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="220dp"
-            android:layout_height="109dp"
-            android:layout_weight="0"
-            android:src="@drawable/logo2" />
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="301dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="35dp"
             android:gravity="center_horizontal"
-            android:text="Iniciar sesión"
+            android:text="Crear cuenta"
             android:textAlignment="textStart"
             android:textColor="@color/colorText"
             android:textSize="25sp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorText" />
+
+        <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:textColor="@color/colorText" />
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="299dp"
-            android:layout_height="wrap_content"
-            android:text="Hola! Qué gusto verte de nuevo" />
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:textColor="@color/colorText" />
 
         <TextView
@@ -63,9 +47,12 @@
             android:layout_width="299dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Ingrese su correo"
+            android:hint="Ingresa tú correo"
 
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textColorHighlight="@color/colorPrimaryDark"
+            android:textColorLink="#f85f6a"
+            android:textCursorDrawable="@color/colorPrimaryDark" />
 
         <TextView
             android:id="@+id/textView4"
@@ -74,8 +61,30 @@
             android:textColor="@color/colorText" />
 
         <TextView
+            android:id="@+id/textView5"
+            android:layout_width="299dp"
+            android:layout_height="wrap_content"
+            android:text="Nombre usuario"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/mypass2"
+            android:layout_width="298dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Ingresa tu nombre de usuario"
+            android:inputType="textPassword" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorText" />
+
+        <TextView
             android:id="@+id/textView3"
-            android:layout_width="300dp"
+            android:layout_width="298dp"
             android:layout_height="wrap_content"
             android:text="Contraseña"
             android:textColor="@color/colorPrimaryDark"
@@ -86,11 +95,38 @@
             android:layout_width="299dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Ingrese su contraseña"
+            android:hint="Ingresa tú contraseña"
             android:inputType="textPassword" />
 
         <TextView
             android:id="@+id/textView9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorText" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorText" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="299dp"
+            android:layout_height="wrap_content"
+            android:text="Acepto "
+            android:textColorHighlight="@color/colorPrimaryDark"
+            android:textColorLink="#f85f6a"
+            android:textCursorDrawable="@color/colorPrimaryDark" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorText" />
+
+        <TextView
+            android:id="@+id/textView10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorText" />
@@ -103,41 +139,10 @@
             android:background="@drawable/bordes_redondos"
             android:contextClickable="false"
             android:ellipsize="start"
-            android:text="Iniciar sesión"
+            android:text="Continuar"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorText" />
-
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorText" />
-
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorText" />
-        <TextView
-            android:id="@+id/createnewaccount"
-            android:layout_width="109dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:clickable="true"
-            android:text="Crear cuenta"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
     </LinearLayout>
-
-</RelativeLayout>
+</androidx.cardview.widget.CardView>
