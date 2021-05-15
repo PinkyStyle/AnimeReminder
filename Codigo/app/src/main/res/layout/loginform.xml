@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Ingrese su correo"
-
+            app:errorEnabled="true"
             android:inputType="textEmailAddress" />
 
         <TextView
@@ -91,6 +91,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Ingrese su contraseña"
+            app:errorEnabled="true"
             android:inputType="textPassword" />
 
         <TextView

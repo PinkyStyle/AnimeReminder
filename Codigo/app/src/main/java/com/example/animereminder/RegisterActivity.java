@@ -48,7 +48,6 @@ public class RegisterActivity extends AppCompatActivity {
         this.mEditTextEmail = (EditText) findViewById(R.id.etemail);
         this.mEditTextUser = (EditText) findViewById(R.id.mypass2);
         this.mEditTextPassword = (EditText) findViewById(R.id.mypass);
-
         this.mCheckBoxTC = (CheckBox) findViewById(R.id.checkBox);
         this.mButtonRegister = (Button) findViewById(R.id.btnregister);
 
@@ -65,7 +64,16 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else {
                     //Error
-                    Log.i("mensaje", "falta parametro");
+                    if (user.isEmpty()) {
+                        mEditTextUser.setError("Debe ingresar un nombre de usuario");
+                    }
+                    if (email.isEmpty()) {
+                        mEditTextEmail.setError("Debe ingresar un correo electrónico");
+                    }
+                    if (password.isEmpty()) {
+                        mEditTextPassword.setError("Debe ingresar una contraseña de 10 o más caracteres");
+                    }
+
                 }
             }
         });
@@ -82,7 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
                     finish();
                 }
                 else{
-                    Toast.makeText(RegisterActivity.this,"F",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this,"Datos inválidos. Inténtelo nuevamente",Toast.LENGTH_SHORT).show();
                 }
             }
         });
