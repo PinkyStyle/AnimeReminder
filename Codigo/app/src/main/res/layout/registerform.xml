@@ -47,11 +47,11 @@
             android:layout_width="299dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Ingresa tú correo"
-
+            android:hint="Ingresa tu correo"
             android:inputType="textEmailAddress"
             android:textColorHighlight="@color/colorPrimaryDark"
             android:textColorLink="#f85f6a"
+            app:errorEnabled="true"
             android:textCursorDrawable="@color/colorPrimaryDark" />
 
         <TextView
@@ -64,7 +64,7 @@
             android:id="@+id/textView5"
             android:layout_width="299dp"
             android:layout_height="wrap_content"
-            android:text="Nombre usuario"
+            android:text="Nombre de usuario"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold" />
 
@@ -74,6 +74,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Ingresa tu nombre de usuario"
+            app:errorEnabled="true"
             android:inputType="textPassword" />
 
         <TextView
@@ -95,7 +96,8 @@
             android:layout_width="299dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Ingresa tú contraseña"
+            android:hint="Ingresa tu contraseña"
+            app:errorEnabled="true"
             android:inputType="textPassword" />
 
         <TextView
