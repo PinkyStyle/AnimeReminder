@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mEditTextEmail;
     private EditText mEditTextPassword;
     private Button mButtonLogin;
-
+    private TextView cna;
     //Variables Firebase
     FirebaseAuth mAuth;
 
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
 
-        TextView cna = (TextView) findViewById(R.id.createnewaccount);
+        this.cna = (TextView) findViewById(R.id.createnewaccount);
         this.mEditTextEmail = (EditText) findViewById(R.id.etemail);
         this.mEditTextPassword = (EditText) findViewById(R.id.mypass);
         this.mButtonLogin = (Button) findViewById(R.id.btnlogin);
