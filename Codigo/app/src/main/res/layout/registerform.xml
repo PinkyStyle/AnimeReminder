@@ -6,14 +6,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="525dp"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="301dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
             android:gravity="center_horizontal"
             android:text="Crear cuenta"
             android:textAlignment="textStart"
@@ -22,7 +21,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/textView14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorText" />
@@ -46,13 +45,13 @@
             android:id="@+id/etemail"
             android:layout_width="299dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="#515151"
+            android:backgroundTintMode="src_in"
             android:ems="10"
             android:hint="Ingresa tu correo"
             android:inputType="textEmailAddress"
-            android:textColorHighlight="@color/colorPrimaryDark"
-            android:textColorLink="#f85f6a"
-            app:errorEnabled="true"
-            android:textCursorDrawable="@color/colorPrimaryDark" />
+            android:textCursorDrawable="@null"
+            app:errorEnabled="true" />
 
         <TextView
             android:id="@+id/textView4"
@@ -72,10 +71,13 @@
             android:id="@+id/mypass2"
             android:layout_width="298dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="#515151"
+            android:backgroundTintMode="src_in"
             android:ems="10"
             android:hint="Ingresa tu nombre de usuario"
-            app:errorEnabled="true"
-            android:inputType="textPassword" />
+            android:inputType="textPersonName"
+            android:textCursorDrawable="@null"
+            app:errorEnabled="true" />
 
         <TextView
             android:id="@+id/textView13"
@@ -95,10 +97,13 @@
             android:id="@+id/mypass"
             android:layout_width="299dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="#515151"
+            android:backgroundTintMode="src_in"
             android:ems="10"
             android:hint="Ingresa tu contraseña"
-            app:errorEnabled="true"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textCursorDrawable="@null"
+            app:errorEnabled="true" />
 
         <TextView
             android:id="@+id/textView9"
@@ -114,12 +119,17 @@
 
         <CheckBox
             android:id="@+id/checkBox"
+            style="@android:style/Widget.CompoundButton.CheckBox"
             android:layout_width="299dp"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
+            android:checked="false"
+            android:focusable="auto"
             android:text="Acepto los términos y condiciones del servicio."
-            android:textColorHighlight="@color/colorPrimaryDark"
-            android:textColorLink="#f85f6a"
-            android:textCursorDrawable="@color/colorPrimaryDark" />
+            android:textColorHighlight="@null"
+            android:textColorHint="@null"
+            android:textColorLink="@color/colorPrimaryDark"
+            android:textCursorDrawable="@null" />
 
         <TextView
             android:id="@+id/textView11"
