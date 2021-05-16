@@ -70,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
                 email = mEditTextEmail.getText().toString();
                 password = mEditTextPassword.getText().toString();
 
-                if( !user.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
+                if( !user.isEmpty() && !email.isEmpty() && !password.isEmpty() && mCheckBoxTC.isChecked()==true) {
                     Log.i("mensaje", "se crea usuario");
                     registerUser();
                 }
@@ -84,6 +84,9 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                     if (password.isEmpty()) {
                         mEditTextPassword.setError("Debe ingresar una contraseña de 10 o más caracteres");
+                    }
+                    if (mCheckBoxTC.isChecked()==false) {
+                        mCheckBoxTC.setError("Debe aceptar los términos y condiciones");
                     }
 
                 }
