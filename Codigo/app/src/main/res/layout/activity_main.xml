@@ -62,10 +62,15 @@
             android:id="@+id/etemail"
             android:layout_width="299dp"
             android:layout_height="wrap_content"
+            android:autoText="false"
+            android:backgroundTint="#515151"
+            android:backgroundTintMode="src_in"
+            android:clickable="false"
             android:ems="10"
             android:hint="Ingrese su correo"
-
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textCursorDrawable="@null"
+            app:errorEnabled="true" />
 
         <TextView
             android:id="@+id/textView4"
@@ -85,9 +90,14 @@
             android:id="@+id/mypass"
             android:layout_width="299dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="#515151"
+            android:backgroundTintMode="src_in"
+            android:clickable="false"
             android:ems="10"
             android:hint="Ingrese su contraseña"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textCursorDrawable="@null"
+            app:errorEnabled="true" />
 
         <TextView
             android:id="@+id/textView9"

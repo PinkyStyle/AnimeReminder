@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mEditTextEmail;
     private EditText mEditTextPassword;
     private Button mButtonLogin;
-
+    private TextView cna;
     //Variables Firebase
     FirebaseAuth mAuth;
 
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
 
-        TextView cna = (TextView) findViewById(R.id.createnewaccount);
+        this.cna = (TextView) findViewById(R.id.createnewaccount);
         this.mEditTextEmail = (EditText) findViewById(R.id.etemail);
         this.mEditTextPassword = (EditText) findViewById(R.id.mypass);
         this.mButtonLogin = (Button) findViewById(R.id.btnlogin);
@@ -55,18 +55,26 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 email = mEditTextEmail.getText().toString();
                 password = mEditTextPassword.getText().toString();
-                mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Intent i = new Intent(MainActivity.this, HomeActivity.class);
-                            startActivity(i);
+                if (email.isEmpty()) {
+                    mEditTextEmail.setError("Debe ingresar su correo electrónico");
+                }
+                if (password.isEmpty()) {
+                    mEditTextPassword.setError("Debe ingresar una contraseña");
+                }
+                if (!email.isEmpty() && !password.isEmpty()) {
+                    mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                Intent i = new Intent(MainActivity.this, HomeActivity.class);
+                                startActivity(i);
+                            }
+                            else{
+                                Toast.makeText(MainActivity.this,"Usuario o contraseña incorrectos. Inténtelo nuevamente",Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        else{
-                            Toast.makeText(MainActivity.this,"F",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                    });
+                }
             }
         });
     }
