@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/Titulo"
+        android:layout_width="411dp"
+        android:layout_height="35dp"
+        android:background="#ECECEC"
+        android:text="Titulo"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="-1dp" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="34dp"
+        android:layout_height="31dp"
+        android:background="#00FFFFFF"
+        android:backgroundTint="#DF6969"
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        tools:layout_editor_absoluteX="341dp"
+        tools:layout_editor_absoluteY="3dp" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="121dp"
+        android:layout_height="107dp"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_editor_absoluteY="61dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/Descripcion"
+        android:layout_width="245dp"
+        android:layout_height="83dp"
+        android:text="fdjg kskfdjgsklfgj klsdfgjkl dfsgsdjk hgskdjf hgsdfkljgh sdlkfgjh lsdfjksfjdlgj klsdfjgklsdfjg lksdf sdjkgskld jg"
+        android:textColor="#000000"
+        tools:layout_editor_absoluteX="149dp"
+        tools:layout_editor_absoluteY="61dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="82dp"
+        android:layout_height="32dp"
+        android:background="#00FFFFFF"
+        android:text="Ver más..."
+        android:textColor="@color/colorAccent"
+        android:textSize="8sp"
+        tools:layout_editor_absoluteX="149dp"
+        tools:layout_editor_absoluteY="144dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="73dp"
+        android:layout_height="32dp"
+        android:background="@color/colorAccent"
+        android:text="Foro"
+        android:textSize="10sp"
+        tools:layout_editor_absoluteX="321dp"
+        tools:layout_editor_absoluteY="147dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
