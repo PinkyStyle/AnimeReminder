@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AnimeReminder">
         <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".AgregarActivity"></activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

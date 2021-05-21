@@ -32,7 +32,7 @@ public class AgregarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.agregar_anime);
-        mDisplayDate = (EditText) mDisplayDate.findViewById(R.id.FechaDeEstreno);
+        mDisplayDate = findViewById(R.id.FechaDeEstreno);
         mHora = findViewById(R.id.Horario_emision);
 
 
@@ -60,7 +60,7 @@ public class AgregarActivity extends AppCompatActivity {
                 mes = mes +1;
                 Log.d("AgregarActivity", "onDateSet: date: " + dia + "/" + mes + "/" + año);
                 String fecha = dia + "/" + mes + "/" + año;
-                mDisplayDate.setText("Fecha");
+                mDisplayDate.setText(fecha);
 
             }
         };
@@ -100,6 +100,8 @@ public class AgregarActivity extends AppCompatActivity {
         });
 
 
+
     }
+
 }
 
