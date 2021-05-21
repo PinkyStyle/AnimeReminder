@@ -20,6 +20,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class RegisterActivity extends AppCompatActivity {
 
     //Variables de Elementos visuales
@@ -70,7 +73,11 @@ public class RegisterActivity extends AppCompatActivity {
                 email = mEditTextEmail.getText().toString();
                 password = mEditTextPassword.getText().toString();
 
-                if( !user.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
+                String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+                Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+                Matcher matcher = pattern.matcher(email);
+
+                if( !user.isEmpty() && !email.isEmpty() && !password.isEmpty() && mCheckBoxTC.isChecked()==true && matcher.matches()==true) {
                     Log.i("mensaje", "se crea usuario");
                     registerUser();
                 }
@@ -80,10 +87,16 @@ public class RegisterActivity extends AppCompatActivity {
                         mEditTextUser.setError("Debe ingresar un nombre de usuario");
                     }
                     if (email.isEmpty()) {
-                        mEditTextEmail.setError("Debe ingresar un correo electrónico");
+                        mEditTextEmail.setError("Debe ingresar su correo electrónico");
+                    }
+                    else if (matcher.matches()==false) {
+                        mEditTextEmail.setError("Debe ingresar un correo electrónico válido");
                     }
                     if (password.isEmpty()) {
                         mEditTextPassword.setError("Debe ingresar una contraseña de 10 o más caracteres");
+                    }
+                    if (mCheckBoxTC.isChecked()==false) {
+                        mCheckBoxTC.setError("Debe aceptar los términos y condiciones");
                     }
 
                 }

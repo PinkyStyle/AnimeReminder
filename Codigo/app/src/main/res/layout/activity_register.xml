@@ -131,6 +131,7 @@
             android:textColorHighlight="@null"
             android:textColorHint="@null"
             android:textColorLink="@color/colorPrimaryDark"
+            app:errorEnabled="true"
             android:textCursorDrawable="@null" />
 
         <TextView
