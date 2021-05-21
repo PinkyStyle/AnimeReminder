@@ -1,0 +1,58 @@
+{
+    "usuarios": {
+        "xebaelvemgador@gmail.com": {
+            "nickname": "SrDeLorean",
+            "correo": "xebaelvemgador@gmail.com",
+            "password": "Sterek64",
+            "baneado": false,
+            "listaAnime": {
+                "id_anime_0000001": {
+                    "fechaAgregado": "20-20-2000"
+                },
+                "id_anime2": {
+                    "fechaAgregado": "20-20-2000"
+                },
+                "id_anime3": {
+                    "fechaAgregado": "20-20-2000"
+                },
+                "id_anime4": {
+                    "fechaAgregado": "20-20-2000"
+                }
+            }
+        }
+    },
+    "animes": {
+        "id_anime_0000001": {
+            "nombre": "Tokyo Revengers",
+            "descripcion": "Takemichi es un desempleado de 26 años que se entera que la chica con la que salía en la escuela media ha muerto. Pero sucede un accidente y regresa en el tiempo a sus años de escuela media. Él jura que cambiará el futuro y logrará salvar a la chica que era su novia. Para lograrlo, su objetivo es llegar a la cima de la región más violenta de bandas de delincuentes.",
+            "estudioDeAnimacion": "Liden Films",
+            "autor": "Ken Wakui",
+            "fechaDeEstreno": "10-8-2020",
+            "plataformaDeTransmision": {
+                "id_plataforma_101010101": true
+            },
+            "HorarioDeEmision": {
+                "dia": "Lunes",
+                "hora": "20:20"
+            },
+            "foro": "24012389012"
+        }
+
+    },
+    "plataformasDeTransmision": {
+        "id_plataforma_101010101": {
+            "nombre": "animeflv",
+            "link": "https://www3.animeflv.net/"
+        }
+    },
+    "foros": {
+        "id_foro_24012389012": {
+            "id_mensaje_501274201": {
+                //el usuario es la referencia no el correo (calso pero bueno)
+                "usuario": "xebaelvemgador@gmail.com",
+                "mensaje": "wena la wea",
+                "foto": null
+            }
+        }
+    }
+}
