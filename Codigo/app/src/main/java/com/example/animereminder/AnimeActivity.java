@@ -122,10 +122,24 @@ public class AnimeActivity extends AppCompatActivity {
     }
 
     public void modificarAnime(){
-
+        SimpleDateFormat dia = new SimpleDateFormat("dd-mm-yyyy");
+        Date date = dia.parse("13:24:40",null);
+        SimpleDateFormat tiempo = new SimpleDateFormat("HH:MM:SS");
+        Date time = tiempo.parse("13:24:40",null);
+        Anime anime = new Anime();
+        anime.setId("getIdFront");
+        anime.setNombre("setNombre".trim());
+        anime.setDescripcion("setDescripcion".trim());
+        anime.setAutor("setAutor".trim());
+        anime.setEstudioDeAnimacion("setEstudioDeAnimacion".trim());
+        anime.setFechaDeEstreno(date);
+        anime.setHorarioDeEmision(time);
+        databaseReference.child("Anime").child(anime.getId()).setValue(anime);
     }
 
     public void eliminarAnime(){
-
+        Anime anime = new Anime();
+        anime.setId("getIdFront");
+        databaseReference.child("Anime").child(anime.getId()).removeValue();
     }
 }
