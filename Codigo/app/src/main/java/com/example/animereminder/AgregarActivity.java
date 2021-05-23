@@ -23,17 +23,28 @@ import java.util.Date;
 
 public class AgregarActivity extends AppCompatActivity {
 
+    private EditText mNombre;
+    private EditText mDescripcion;
     private EditText mDisplayDate;
+    private EditText mCantidad;
+
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     EditText mHora;
     int hora, minuto;
+    private EditText mEstudio;
+    private EditText mAutor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.agregar_anime);
+        this.mNombre = findViewById(R.id.nombre_anime);
+        this.mDescripcion = findViewById(R.id.descripcion_anime);
         mDisplayDate = findViewById(R.id.FechaDeEstreno);
+        this.mCantidad = findViewById(R.id.Cantidad_Capitulos);
         mHora = findViewById(R.id.Horario_emision);
+        this.mEstudio = findViewById(R.id.Estudio_animacion);
+        this.mAutor = findViewById(R.id.autor);
 
 
 
