@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="HOLA GENTE BENDICIONES"
-        android:textSize="30sp" />
-
+        android:textSize="30sp" >
     <TextView
         android:id="@+id/testeando"
         android:layout_width="match_parent"
@@ -19,5 +18,6 @@
         android:text="PRESIONE AQUI PA AGREGAR ANIME"
         android:textColor="#D12424"
         android:textSize="36sp" />
+    </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

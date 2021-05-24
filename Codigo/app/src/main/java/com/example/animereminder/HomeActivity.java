@@ -31,7 +31,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         //Log.i("mensaje", "creación home");
-        this.init();
+        //this.init();
     }
 
     public void init() {
