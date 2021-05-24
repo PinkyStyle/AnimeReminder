@@ -15,14 +15,18 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
     private TextView Test;
-
+    private String texto;
     List<ListElement> elements;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homeform);
+        Bundle b = getIntent().getExtras();
+        if (b != null){
+            this.texto = b.getString("texto");
+        }
         this.Test = findViewById(R.id.testeando);
-
+        this.Test.setText(this.texto);
         this.Test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
