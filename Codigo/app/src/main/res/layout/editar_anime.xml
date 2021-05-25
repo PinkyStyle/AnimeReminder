@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="309dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Editar Anime"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorText"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="31dp" />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Nombre"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editar_nombre_anime"
+            android:layout_width="301dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#515151"
+            android:backgroundTintMode="src_in"
+            android:ems="10"
+            android:hint="Ingresa el nombre"
+            android:inputType="textEmailAddress"
+            android:textAlignment="viewStart"
+            android:textCursorDrawable="@null"
+            app:errorEnabled="true" />
+
+        <TextView
+            android:layout_width="301dp"
+            android:layout_height="wrap_content"
+            android:text="Descripción"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editar_descripcion"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#515151"
+            android:backgroundTintMode="src_in"
+            android:ems="10"
+            android:hint="Ingresa la descripción"
+            android:inputType="textEmailAddress"
+            android:textAlignment="viewStart"
+            android:textCursorDrawable="@null"
+            app:errorEnabled="true" />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Fecha de estreno"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editar_fecha"
+            android:layout_width="304dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="Pulse para elegir una fecha"
+            android:inputType="date"
+            android:maxLines="1" />
+
+        <TextView
+            android:layout_width="304dp"
+            android:layout_height="wrap_content"
+            android:text="Cantidad de capitulos"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editar_capitulos"
+            android:layout_width="305dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#515151"
+            android:backgroundTintMode="src_in"
+            android:ems="10"
+            android:hint="Ingresa la cantidad de capitulos"
+            android:inputType="number"
+            android:textAlignment="viewStart"
+            android:textCursorDrawable="@null"
+            app:errorEnabled="true" />
+
+        <TextView
+            android:layout_width="302dp"
+            android:layout_height="wrap_content"
+            android:text="Horario de emisión"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editar_horario"
+            android:layout_width="306dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#515151"
+            android:backgroundTintMode="src_in"
+            android:ems="10"
+            android:hint="Pulse para elegir una hora"
+            android:inputType="datetime|time"
+            android:textAlignment="viewStart"
+            android:textCursorDrawable="@null"
+            app:errorEnabled="true" />
+
+        <TextView
+            android:id="@+id/textView34"
+            android:layout_width="302dp"
+            android:layout_height="wrap_content"
+            android:text="Estudio de animación"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editar_estudio"
+            android:layout_width="304dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#515151"
+            android:backgroundTintMode="src_in"
+            android:ems="10"
+            android:hint="Ingrese el estudio de animación"
+            android:inputType="textEmailAddress"
+            android:textAlignment="viewStart"
+            android:textCursorDrawable="@null"
+            app:errorEnabled="true" />
+
+        <TextView
+            android:layout_width="303dp"
+            android:layout_height="wrap_content"
+            android:text="Autor"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editar_autor"
+            android:layout_width="304dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#515151"
+            android:backgroundTintMode="src_in"
+            android:ems="10"
+            android:hint="Ingrese el autor"
+            android:inputType="textEmailAddress"
+            android:textAlignment="viewStart"
+            android:textCursorDrawable="@null"
+            app:errorEnabled="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnagregar"
+            android:layout_width="151dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bordes_redondos"
+            android:contextClickable="false"
+            android:ellipsize="start"
+            android:text="Guardar"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</RelativeLayout>
