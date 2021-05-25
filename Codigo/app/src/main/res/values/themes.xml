@@ -24,6 +24,9 @@
     <style name="AppTheme.NoActionBar" parent="Theme.AnimeReminder">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+    </style>
 
+    <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:colorAccent">@color/purple_700</item>
     </style>
 </resources>

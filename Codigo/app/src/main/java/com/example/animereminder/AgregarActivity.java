@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -12,7 +13,6 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -27,7 +27,6 @@ public class AgregarActivity extends AppCompatActivity {
     private EditText mDescripcion;
     private EditText mDisplayDate;
     private EditText mCantidad;
-
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     EditText mHora;
     int hora, minuto;
@@ -46,6 +45,8 @@ public class AgregarActivity extends AppCompatActivity {
         this.mEstudio = findViewById(R.id.Estudio_animacion);
         this.mAutor = findViewById(R.id.autor);
 
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+        getSupportActionBar().setTitle(Html.fromHtml("<font color='#35424a'>Agregar Anime</font>"));
 
 
         mDisplayDate.setOnClickListener(new View.OnClickListener() {
