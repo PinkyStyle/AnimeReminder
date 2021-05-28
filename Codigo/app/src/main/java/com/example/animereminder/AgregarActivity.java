@@ -8,11 +8,15 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.AuthResult;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -32,6 +36,16 @@ public class AgregarActivity extends AppCompatActivity {
     int hora, minuto;
     private EditText mEstudio;
     private EditText mAutor;
+
+    private Button guardar;
+
+    String Nombre;
+    String Descripcion;
+    String fecha;
+    int Cantidad;
+    String emision;
+    String estudio;
+    String autor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +91,7 @@ public class AgregarActivity extends AppCompatActivity {
             }
         };
 
+
         mHora.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +125,51 @@ public class AgregarActivity extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
+
+        /*
+
+        this.guardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Nombre = mNombre.getText().toString();
+                Descripcion = mDescripcion.getText().toString();
+                fecha = mDisplayDate.getText().toString();
+                Cantidad = Integer.valueOf(mCantidad.getText().toString());
+                emision = mHora.getText().toString();
+                estudio = mEstudio.getText().toString();
+                autor = mAutor.getText().toString();
+
+                if (Nombre.isEmpty()) {
+                    mNombre.setError("Debe ingresar un título para el anime");
+                }
+                if (Descripcion.isEmpty()) {
+                    mDescripcion.setError("Debe ingresar una descripción para el anime");
+                }
+                if (fecha.isEmpty()) {
+                    mDisplayDate.setError("Debe escoger una fecha");
+                }
+                if (Cantidad<=0) {
+                    mCantidad.setError("La cantidad de capítulos no puede ser 0");
+                }
+                if (mCantidad.getText().toString().isEmpty()) {
+                    mCantidad.setError("Debe ingresar un número");
+                }
+                if (emision.isEmpty()) {
+                    mHora.setError("Debe escoger una hora");
+                }
+                if (estudio.isEmpty()) {
+                    mEstudio.setError("Debe ingresar un estudio para el anime");
+                }
+                if (autor.isEmpty()) {
+                    mAutor.setError("Debe ingresar un autor para el anime");
+                }
+
+            }
+        });
+
+        */
+
 
 
 
