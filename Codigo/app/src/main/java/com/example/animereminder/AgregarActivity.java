@@ -11,14 +11,19 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.animereminder.controllers.AnimeController;
+import com.example.animereminder.model.Anime;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 
 public class AgregarActivity extends AppCompatActivity {
@@ -32,11 +37,16 @@ public class AgregarActivity extends AppCompatActivity {
     int hora, minuto;
     private EditText mEstudio;
     private EditText mAutor;
+    private Button mBotonAgregar;
+
+    private AnimeController animeController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.agregar_anime);
+        this.animeController = new AnimeController();
+
         this.mNombre = findViewById(R.id.nombre_anime);
         this.mDescripcion = findViewById(R.id.descripcion_anime);
         mDisplayDate = findViewById(R.id.FechaDeEstreno);
@@ -44,6 +54,7 @@ public class AgregarActivity extends AppCompatActivity {
         mHora = findViewById(R.id.Horario_emision);
         this.mEstudio = findViewById(R.id.Estudio_animacion);
         this.mAutor = findViewById(R.id.autor);
+        this.mBotonAgregar = findViewById(R.id.btnagregar);
 
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#35424a'>Agregar Anime</font>"));
@@ -108,6 +119,35 @@ public class AgregarActivity extends AppCompatActivity {
                 timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePickerDialog.updateTime(hora, minuto);
                 timePickerDialog.show();
+            }
+        });
+
+        this.mBotonAgregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.i("FECHA", mDisplayDate.getText().toString());
+                Log.i("HORA", mHora.getText().toString());
+                //SimpleDateFormat dia = new SimpleDateFormat("dd-mm-yyyy");
+                //Date date = dia.parse("01-05-21",null);
+                //SimpleDateFormat tiempo = new SimpleDateFormat("HH:MM:SS");
+                //Date time = tiempo.parse("13:24:40",null);
+
+                Anime anime = new Anime();
+                anime.setId(UUID.randomUUID().toString());
+                anime.setNombre(mNombre.getText().toString());
+                anime.setDescripcion(mDescripcion.getText().toString());
+                anime.setAutor(mAutor.getText().toString());
+                anime.setEstudioDeAnimacion(mEstudio.getText().toString());
+                anime.setFechaDeEstreno(mDisplayDate.getText().toString());
+                anime.setHorarioDeEmision(mHora.getText().toString());
+                try {
+                    animeController.crearAnime(anime);
+                    finish();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(AgregarActivity.this,"Error al agregar el Anime",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
