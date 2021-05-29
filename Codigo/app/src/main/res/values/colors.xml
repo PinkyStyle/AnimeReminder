@@ -13,4 +13,7 @@
 
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorText">#35424a</color>
+
+    <color name="ColorPrimary">#3F51B5</color>
+    <color name="title_color">@color/white</color>
 </resources>
