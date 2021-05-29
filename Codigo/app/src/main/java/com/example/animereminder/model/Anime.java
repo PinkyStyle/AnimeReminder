@@ -1,24 +1,20 @@
 package com.example.animereminder.model;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 public class Anime {
-
-    private String id;
-    private String nombre;
+    private String autor;
     private String descripcion;
     private String estudioDeAnimacion;
-    private String autor;
-    private Date fechaDeEstreno;
-    private Map<String, String> plataformaDeTransmision;
-    private Date HorarioDeEmision;
-    private Map<String, Mensaje> foro;
+    private String fechaDeEstreno;
+    private String horarioDeEmision;
+    private String id;
+    private String nombre;
+    //private Map<String, String> plataformaDeTransmision;
+    //private Map<String, Mensaje> foro;
 
     public Anime() {
-        plataformaDeTransmision = new HashMap<>();
-        foro = new HashMap<>();
+        //id = UUID.randomUUID().toString();
+        //plataformaDeTransmision = new HashMap<>();
+        //foro = new HashMap<>();
     }
 
     public String getId() {
@@ -61,35 +57,35 @@ public class Anime {
         this.autor = autor;
     }
 
-    public Date getFechaDeEstreno() {
+    public String getFechaDeEstreno() {
         return fechaDeEstreno;
     }
 
-    public void setFechaDeEstreno(Date fechaDeEstreno) {
+    public void setFechaDeEstreno(String fechaDeEstreno) {
         this.fechaDeEstreno = fechaDeEstreno;
     }
 
-    public Map<String, String> getPlataformaDeTransmision() {
+    /*public Map<String, String> getPlataformaDeTransmision() {
         return plataformaDeTransmision;
-    }
+    }*/
 
-    public void setPlataformaDeTransmision(Map<String, String> plataformaDeTransmision) {
+    /*public void setPlataformaDeTransmision(Map<String, String> plataformaDeTransmision) {
         this.plataformaDeTransmision = plataformaDeTransmision;
+    }*/
+
+    public String getHorarioDeEmision() {
+        return horarioDeEmision;
     }
 
-    public Date getHorarioDeEmision() {
-        return HorarioDeEmision;
+    public void setHorarioDeEmision(String horarioDeEmision) {
+        this.horarioDeEmision = horarioDeEmision;
     }
 
-    public void setHorarioDeEmision(Date horarioDeEmision) {
-        HorarioDeEmision = horarioDeEmision;
-    }
-
-    public Map<String, Mensaje> getForo() {
+    /*public Map<String, Mensaje> getForo() {
         return foro;
-    }
+    }*/
 
-    public void setForo(Map<String, Mensaje> foro) {
+    /*public void setForo(Map<String, Mensaje> foro) {
         this.foro = foro;
-    }
+    }*/
 }

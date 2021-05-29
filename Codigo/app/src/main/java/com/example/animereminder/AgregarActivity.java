@@ -1,0 +1,159 @@
+package com.example.animereminder;
+
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.text.Html;
+import android.util.Log;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TimePicker;
+import android.widget.Button;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.animereminder.controllers.AnimeController;
+import com.example.animereminder.model.Anime;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.UUID;
+
+
+public class AgregarActivity extends AppCompatActivity {
+
+    private EditText mNombre;
+    private EditText mDescripcion;
+    private EditText mDisplayDate;
+    private EditText mCantidad;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    EditText mHora;
+    int hora, minuto;
+    private EditText mEstudio;
+    private EditText mAutor;
+    private Button mBotonAgregar;
+
+    private AnimeController animeController;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.agregar_anime);
+        this.animeController = new AnimeController();
+
+        this.mNombre = findViewById(R.id.nombre_anime);
+        this.mDescripcion = findViewById(R.id.descripcion_anime);
+        mDisplayDate = findViewById(R.id.FechaDeEstreno);
+        this.mCantidad = findViewById(R.id.Cantidad_Capitulos);
+        mHora = findViewById(R.id.Horario_emision);
+        this.mEstudio = findViewById(R.id.Estudio_animacion);
+        this.mAutor = findViewById(R.id.autor);
+        this.mBotonAgregar = findViewById(R.id.btnagregar);
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+        getSupportActionBar().setTitle(Html.fromHtml("<font color='#35424a'>Agregar Anime</font>"));
+
+
+        mDisplayDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View view){
+                Calendar cal = Calendar.getInstance();
+                int año = cal.get(Calendar.YEAR);
+                int mes = cal.get(Calendar.MONTH);
+                int dia = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog (AgregarActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        mDateSetListener,
+                        año, mes, dia);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int año, int mes, int dia) {
+                mes = mes +1;
+                Log.d("AgregarActivity", "onDateSet: date: " + dia + "/" + mes + "/" + año);
+                String fecha = dia + "/" + mes + "/" + año;
+                mDisplayDate.setText(fecha);
+
+            }
+        };
+
+        mHora.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                        AgregarActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                hora = hourOfDay;
+                                minuto = minute;
+                                String tiempo = hora + ":" + minuto;
+                                SimpleDateFormat f24hours = new SimpleDateFormat(
+                                        "HH:mm"
+                                );
+                                try {
+                                    Date date = f24hours.parse(tiempo);
+                                    SimpleDateFormat f12hours = new SimpleDateFormat(
+                                            "hh:mm aa"
+                                    );
+                                    mHora.setText(f12hours.format(date));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, 12, 0, false
+
+                );
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                timePickerDialog.updateTime(hora, minuto);
+                timePickerDialog.show();
+            }
+        });
+
+        this.mBotonAgregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.i("FECHA", mDisplayDate.getText().toString());
+                Log.i("HORA", mHora.getText().toString());
+                //SimpleDateFormat dia = new SimpleDateFormat("dd-mm-yyyy");
+                //Date date = dia.parse("01-05-21",null);
+                //SimpleDateFormat tiempo = new SimpleDateFormat("HH:MM:SS");
+                //Date time = tiempo.parse("13:24:40",null);
+
+                Anime anime = new Anime();
+                anime.setId(UUID.randomUUID().toString());
+                anime.setNombre(mNombre.getText().toString());
+                anime.setDescripcion(mDescripcion.getText().toString());
+                anime.setAutor(mAutor.getText().toString());
+                anime.setEstudioDeAnimacion(mEstudio.getText().toString());
+                anime.setFechaDeEstreno(mDisplayDate.getText().toString());
+                anime.setHorarioDeEmision(mHora.getText().toString());
+                try {
+                    animeController.crearAnime(anime);
+                    finish();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(AgregarActivity.this,"Error al agregar el Anime",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+
+    }
+
+}
+
