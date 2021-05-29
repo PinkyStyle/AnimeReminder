@@ -85,33 +85,62 @@ public class AgregarActivity extends AppCompatActivity {
                 emision = mHora.getText().toString();
                 estudio = mEstudio.getText().toString();
                 autor = mAutor.getText().toString();
-
+                int cantErrores = 0;
 
                 if (Nombre.isEmpty()) {
                     mNombre.setError("Debe ingresar un título para el anime");
+                    cantErrores++;
                 }
                 if (Descripcion.isEmpty()) {
                     mDescripcion.setError("Debe ingresar una descripción para el anime");
+                    cantErrores++;
                 }
                 if (fecha.isEmpty()) {
                     mDisplayDate.setError("Debe escoger una fecha");
+                    cantErrores++;
                 }
                 if (Cantidad.isEmpty() || Cantidad.equals(null)) {
                     mCantidad.setError("Debe ingresar un número");
+                    cantErrores++;
                 }
                 else if (Integer.valueOf(mCantidad.getText().toString())<=0 || Integer.valueOf(mCantidad.getText().toString())==null) {
                     mCantidad.setError("El número de capítulos no puede ser 0");
+                    cantErrores++;
                 }
                 if (emision.isEmpty()) {
                     mHora.setError("Debe escoger una hora");
+                    cantErrores++;
                 }
                 if (estudio.isEmpty()) {
                     mEstudio.setError("Debe ingresar un estudio para el anime");
+                    cantErrores++;
                 }
                 if (autor.isEmpty()) {
                     mAutor.setError("Debe ingresar un autor para el anime");
+                    cantErrores++;
+                }
+                if(cantErrores >0){
+                    return;
                 }
 
+                Anime anime = new Anime();
+                anime.setId(UUID.randomUUID().toString());
+                anime.setNombre(mNombre.getText().toString());
+                anime.setDescripcion(mDescripcion.getText().toString());
+                anime.setFechaDeEstreno(mDisplayDate.getText().toString());
+                anime.setNumCapitulos(mCantidad.getText().toString());
+                anime.setHorarioDeEmision(mHora.getText().toString());
+                anime.setEstudioDeAnimacion(mEstudio.getText().toString());
+                anime.setAutor(mAutor.getText().toString());
+                anime.setBorrado(false);
+
+                try {
+                    animeController.crearAnime(anime);
+                    finish();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(AgregarActivity.this,"Error al agregar el Anime",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -178,37 +207,6 @@ public class AgregarActivity extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
-
-        this.mBotonAgregar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Log.i("FECHA", mDisplayDate.getText().toString());
-                Log.i("HORA", mHora.getText().toString());
-                //SimpleDateFormat dia = new SimpleDateFormat("dd-mm-yyyy");
-                //Date date = dia.parse("01-05-21",null);
-                //SimpleDateFormat tiempo = new SimpleDateFormat("HH:MM:SS");
-                //Date time = tiempo.parse("13:24:40",null);
-
-                Anime anime = new Anime();
-                anime.setId(UUID.randomUUID().toString());
-                anime.setNombre(mNombre.getText().toString());
-                anime.setDescripcion(mDescripcion.getText().toString());
-                anime.setAutor(mAutor.getText().toString());
-                anime.setEstudioDeAnimacion(mEstudio.getText().toString());
-                anime.setFechaDeEstreno(mDisplayDate.getText().toString());
-                anime.setHorarioDeEmision(mHora.getText().toString());
-                try {
-                    animeController.crearAnime(anime);
-                    finish();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(AgregarActivity.this,"Error al agregar el Anime",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-
 
     }
 
