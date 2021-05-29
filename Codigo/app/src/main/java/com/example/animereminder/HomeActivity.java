@@ -39,13 +39,13 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void init() {
-        elements = new ArrayList<>();
-        elements.add(new ListElement("hola","este es un ejemplo de descripción"));
-        elements.add(new ListElement("hola2","este es un ejemplo de descripción"));
-        elements.add(new ListElement("hola3", "este es un ejemplo de descripción"));
-        elements.add(new ListElement("hola4", "este es un ejemplo de descripción"));
-        elements.add(new ListElement("hola5", "este es un ejemplo de descripción"));
-        elements.add(new ListElement("hola6", "este es un ejemplo de descripción"));
+        //elements = new ArrayList<>();
+        //elements.add(new ListElement("hola","este es un ejemplo de descripción"));
+        //elements.add(new ListElement("hola2","este es un ejemplo de descripción"));
+        //elements.add(new ListElement("hola3", "este es un ejemplo de descripción"));
+        //elements.add(new ListElement("hola4", "este es un ejemplo de descripción"));
+        //elements.add(new ListElement("hola5", "este es un ejemplo de descripción"));
+        //elements.add(new ListElement("hola6", "este es un ejemplo de descripción"));
 
         ListAdapter listAdapter = new ListAdapter(elements,this);
         //Log.i("mensaje", "despues de adapter");

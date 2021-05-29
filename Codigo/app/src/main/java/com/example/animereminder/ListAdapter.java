@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.animereminder.controllers.AnimeController;
 
 import java.util.List;
 
@@ -53,6 +56,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView titulo;
         TextView description;
+        String id;
         Button btnAnimeForo;
         TextView all_anime;
         ImageView edit_anime;
@@ -71,6 +75,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         void bindData(final ListElement item){
             titulo.setText(item.getTitulo());
             description.setText(item.getDescription());
+            id = item.getId();
         }
 
         void setOnClickListeners() {
@@ -95,6 +100,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                     break;
                 case R.id.edit_anime:
                     Intent intent3 = new Intent(context, EditarActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("id",id);
+                    intent3.putExtras(b);
                     context.startActivity(intent3);
                     break;
                 case R.id.delete_anime:
@@ -104,7 +112,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                     alerta.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            //si quiere eliminarlo
+                            AnimeController.eliminarAnime(id);
                             dialog.cancel();
                         }
                     });

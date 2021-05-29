@@ -8,6 +8,8 @@ public class Anime {
     private String horarioDeEmision;
     private String id;
     private String nombre;
+    private String numCapitulos;
+    private boolean borrado;
     //private Map<String, String> plataformaDeTransmision;
     //private Map<String, Mensaje> foro;
 
@@ -65,6 +67,14 @@ public class Anime {
         this.fechaDeEstreno = fechaDeEstreno;
     }
 
+    public String getNumCapitulos() {
+        return numCapitulos;
+    }
+
+    public void setNumCapitulos(String numCapitulos) {
+        this.numCapitulos = numCapitulos;
+    }
+
     /*public Map<String, String> getPlataformaDeTransmision() {
         return plataformaDeTransmision;
     }*/
@@ -88,4 +98,12 @@ public class Anime {
     /*public void setForo(Map<String, Mensaje> foro) {
         this.foro = foro;
     }*/
+
+    public boolean isBorrado() {
+        return borrado;
+    }
+
+    public void setBorrado(boolean borrado) {
+        this.borrado = borrado;
+    }
 }
