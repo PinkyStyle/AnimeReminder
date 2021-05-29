@@ -37,12 +37,12 @@ public class AgregarActivity extends AppCompatActivity {
     private EditText mEstudio;
     private EditText mAutor;
 
-    private Button guardar;
+    private Button mBotonAgregar;
 
     String Nombre;
     String Descripcion;
     String fecha;
-    int Cantidad;
+    String Cantidad;
     String emision;
     String estudio;
     String autor;
@@ -58,9 +58,53 @@ public class AgregarActivity extends AppCompatActivity {
         mHora = findViewById(R.id.Horario_emision);
         this.mEstudio = findViewById(R.id.Estudio_animacion);
         this.mAutor = findViewById(R.id.autor);
+        this.mBotonAgregar = findViewById(R.id.btnagregar);
+        this.mCantidad.setText("1");
 
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#35424a'>Agregar Anime</font>"));
+
+
+        this.mBotonAgregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Nombre = mNombre.getText().toString();
+                Descripcion = mDescripcion.getText().toString();
+                fecha = mDisplayDate.getText().toString();
+                Cantidad = mCantidad.getText().toString();
+                emision = mHora.getText().toString();
+                estudio = mEstudio.getText().toString();
+                autor = mAutor.getText().toString();
+
+
+                if (Nombre.isEmpty()) {
+                    mNombre.setError("Debe ingresar un título para el anime");
+                }
+                if (Descripcion.isEmpty()) {
+                    mDescripcion.setError("Debe ingresar una descripción para el anime");
+                }
+                if (fecha.isEmpty()) {
+                    mDisplayDate.setError("Debe escoger una fecha");
+                }
+                if (Cantidad.isEmpty() || Cantidad.equals(null)) {
+                    mCantidad.setError("Debe ingresar un número");
+                }
+                else if (Integer.valueOf(mCantidad.getText().toString())<=0 || Integer.valueOf(mCantidad.getText().toString())==null) {
+                    mCantidad.setError("El número de capítulos no puede ser 0");
+                }
+                if (emision.isEmpty()) {
+                    mHora.setError("Debe escoger una hora");
+                }
+                if (estudio.isEmpty()) {
+                    mEstudio.setError("Debe ingresar un estudio para el anime");
+                }
+                if (autor.isEmpty()) {
+                    mAutor.setError("Debe ingresar un autor para el anime");
+                }
+
+            }
+        });
 
 
         mDisplayDate.setOnClickListener(new View.OnClickListener() {
@@ -125,54 +169,6 @@ public class AgregarActivity extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
-
-        /*
-
-        this.guardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Nombre = mNombre.getText().toString();
-                Descripcion = mDescripcion.getText().toString();
-                fecha = mDisplayDate.getText().toString();
-                Cantidad = Integer.valueOf(mCantidad.getText().toString());
-                emision = mHora.getText().toString();
-                estudio = mEstudio.getText().toString();
-                autor = mAutor.getText().toString();
-
-                if (Nombre.isEmpty()) {
-                    mNombre.setError("Debe ingresar un título para el anime");
-                }
-                if (Descripcion.isEmpty()) {
-                    mDescripcion.setError("Debe ingresar una descripción para el anime");
-                }
-                if (fecha.isEmpty()) {
-                    mDisplayDate.setError("Debe escoger una fecha");
-                }
-                if (Cantidad<=0) {
-                    mCantidad.setError("La cantidad de capítulos no puede ser 0");
-                }
-                if (mCantidad.getText().toString().isEmpty()) {
-                    mCantidad.setError("Debe ingresar un número");
-                }
-                if (emision.isEmpty()) {
-                    mHora.setError("Debe escoger una hora");
-                }
-                if (estudio.isEmpty()) {
-                    mEstudio.setError("Debe ingresar un estudio para el anime");
-                }
-                if (autor.isEmpty()) {
-                    mAutor.setError("Debe ingresar un autor para el anime");
-                }
-
-            }
-        });
-
-        */
-
-
-
-
     }
 
 }
