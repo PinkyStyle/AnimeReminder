@@ -1,7 +1,10 @@
 package com.example.animereminder;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.example.animereminder.controllers.AnimeController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +26,7 @@ import java.util.List;
  */
 public class TempAdminFragment extends Fragment {
     List<ListElement> elements;
+    Button add_anime;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -28,6 +35,8 @@ public class TempAdminFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private AnimeController animeController;
 
     public TempAdminFragment() {
         // Required empty public constructor
@@ -66,19 +75,30 @@ public class TempAdminFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_temp_admin, container, false);
-
+        this.elements = new ArrayList<>();
+        this.animeController = new AnimeController();
+        this.animeController.listarAnime(vista);
+        this.add_anime = vista.findViewById(R.id.add_anime);
         this.init(vista);
+        this.add_anime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(vista.getContext(), AgregarActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return vista;
     }
 
     public void init(View vista) {
-        elements = new ArrayList<>();
-        elements.add(new ListElement("hola","este es un ejemplo de descripción"));
-        elements.add(new ListElement("hola2","este es un ejemplo de descripción"));
-        elements.add(new ListElement("hola3", "este es un ejemplo de descripción"));
-        elements.add(new ListElement("hola4", "este es un ejemplo de descripción"));
-        elements.add(new ListElement("hola5", "este es un ejemplo de descripción"));
-        elements.add(new ListElement("hola6", "este es un ejemplo de descripción"));
+        //elements = new ArrayList<>();
+        //elements.add(new ListElement("hola","este es un ejemplo de descripción"));
+        //elements.add(new ListElement("hola2","este es un ejemplo de descripción"));
+        //elements.add(new ListElement("hola3", "este es un ejemplo de descripción"));
+        //elements.add(new ListElement("hola4", "este es un ejemplo de descripción"));
+        //elements.add(new ListElement("hola5", "este es un ejemplo de descripción"));
+        //elements.add(new ListElement("hola6", "este es un ejemplo de descripción"));
 
         ListAdapter listAdapter = new ListAdapter(elements,vista.getContext());
         //Log.i("mensaje", "despues de adapter");
