@@ -12,17 +12,21 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.animereminder.controllers.AnimeController;
 import com.example.animereminder.model.Anime;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import com.google.firebase.auth.AuthResult;
+import org.jetbrains.annotations.NotNull;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,7 +34,7 @@ import java.util.Date;
 import java.util.UUID;
 
 
-public class AgregarActivity extends AppCompatActivity {
+public class EditarActivity extends AppCompatActivity {
 
     private EditText mNombre;
     private EditText mDescripcion;
@@ -41,10 +45,10 @@ public class AgregarActivity extends AppCompatActivity {
     int hora, minuto;
     private EditText mEstudio;
     private EditText mAutor;
-    private Button mBotonAgregar;
 
-    private AnimeController animeController;
+    private Button mBotonEditar;
 
+    private String idEditar;
 
     String Nombre;
     String Descripcion;
@@ -54,30 +58,55 @@ public class AgregarActivity extends AppCompatActivity {
     String estudio;
     String autor;
 
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.agregar_anime);
-        this.animeController = new AnimeController();
-
-        this.mNombre = findViewById(R.id.nombre_anime);
-        this.mDescripcion = findViewById(R.id.descripcion_anime);
-        mDisplayDate = findViewById(R.id.FechaDeEstreno);
-        this.mCantidad = findViewById(R.id.Cantidad_Capitulos);
-        mHora = findViewById(R.id.Horario_emision);
-        this.mEstudio = findViewById(R.id.Estudio_animacion);
-        this.mAutor = findViewById(R.id.autor);
-        this.mBotonAgregar = findViewById(R.id.btnagregar);
+        setContentView(R.layout.editar_anime);
+        this.mNombre = findViewById(R.id.editar_nombre_anime);
+        this.mDescripcion = findViewById(R.id.editar_descripcion);
+        mDisplayDate = findViewById(R.id.editar_fecha);
+        this.mCantidad = findViewById(R.id.editar_capitulos);
+        mHora = findViewById(R.id.editar_horario);
+        this.mEstudio = findViewById(R.id.editar_estudio);
+        this.mAutor = findViewById(R.id.editar_autor);
+        this.mBotonEditar = findViewById(R.id.btneditar);
         this.mCantidad.setText("1");
 
+        Bundle b = getIntent().getExtras();
+        String idAnime = "";
+        if(b != null){
+            idAnime = b.getString("id");
+        }
+
+        databaseReference.child("Anime").child(idAnime).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                if(task.isSuccessful()){
+                    System.out.println(task.getResult().getValue());
+                    Anime anime = task.getResult().getValue(Anime.class);
+                    mNombre.setText(anime.getNombre());
+                    mDescripcion.setText(anime.getDescripcion());
+                    mDisplayDate.setText(anime.getFechaDeEstreno());
+                    mCantidad.setText(anime.getNumCapitulos());
+                    mHora.setText(anime.getHorarioDeEmision());
+                    mEstudio.setText(anime.getEstudioDeAnimacion());
+                    mAutor.setText(anime.getAutor());
+                    idEditar = anime.getId();
+                }
+                else{
+                    System.out.println("No se obtuvieron los datos");
+                }
+            }
+        });
+
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
-        getSupportActionBar().setTitle(Html.fromHtml("<font color='#35424a'>Agregar Anime</font>"));
+        getSupportActionBar().setTitle(Html.fromHtml("<font color='#35424a'>Editar Anime</font>"));
 
-
-        this.mBotonAgregar.setOnClickListener(new View.OnClickListener() {
+        this.mBotonEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Nombre = mNombre.getText().toString();
                 Descripcion = mDescripcion.getText().toString();
                 fecha = mDisplayDate.getText().toString();
@@ -85,6 +114,7 @@ public class AgregarActivity extends AppCompatActivity {
                 emision = mHora.getText().toString();
                 estudio = mEstudio.getText().toString();
                 autor = mAutor.getText().toString();
+
                 int cantErrores = 0;
 
                 if (Nombre.isEmpty()) {
@@ -122,9 +152,8 @@ public class AgregarActivity extends AppCompatActivity {
                 if(cantErrores >0){
                     return;
                 }
-
                 Anime anime = new Anime();
-                anime.setId(UUID.randomUUID().toString());
+                anime.setId(idEditar);
                 anime.setNombre(mNombre.getText().toString());
                 anime.setDescripcion(mDescripcion.getText().toString());
                 anime.setFechaDeEstreno(mDisplayDate.getText().toString());
@@ -135,11 +164,12 @@ public class AgregarActivity extends AppCompatActivity {
                 anime.setBorrado(false);
 
                 try {
-                    animeController.crearAnime(anime);
+                    AnimeController.modificarAnime(anime);
                     finish();
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(AgregarActivity.this,"Error al agregar el Anime",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditarActivity.this,"Error al modificar el Anime",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -153,7 +183,7 @@ public class AgregarActivity extends AppCompatActivity {
                 int mes = cal.get(Calendar.MONTH);
                 int dia = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog (AgregarActivity.this,
+                DatePickerDialog dialog = new DatePickerDialog (EditarActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener,
                         año, mes, dia);
@@ -166,19 +196,18 @@ public class AgregarActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int año, int mes, int dia) {
                 mes = mes +1;
-                Log.d("AgregarActivity", "onDateSet: date: " + dia + "/" + mes + "/" + año);
+                Log.d("EditarActivity", "onDateSet: date: " + dia + "/" + mes + "/" + año);
                 String fecha = dia + "/" + mes + "/" + año;
                 mDisplayDate.setText(fecha);
 
             }
         };
 
-
         mHora.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(
-                        AgregarActivity.this,
+                        EditarActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
@@ -207,7 +236,6 @@ public class AgregarActivity extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
-
     }
 
 }

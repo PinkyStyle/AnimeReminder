@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center">
@@ -16,8 +17,8 @@
             android:layout_width="309dp"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Agregar Anime"
-            android:textAlignment="viewStart"
+            android:text="Editar Anime"
+            android:textAlignment="textStart"
             android:textColor="@color/colorText"
             android:textSize="25sp"
             android:textStyle="bold" />
@@ -35,7 +36,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/nombre_anime"
+            android:id="@+id/editar_nombre_anime"
             android:layout_width="301dp"
             android:layout_height="wrap_content"
             android:backgroundTint="#515151"
@@ -56,16 +57,16 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/descripcion_anime"
+            android:id="@+id/editar_descripcion"
             android:layout_width="300dp"
             android:layout_height="138dp"
             android:background="@drawable/border_edittext"
+            android:backgroundTintMode="src_in"
             android:ems="10"
             android:hint=" Ingresa la descripción"
             android:inputType="textMultiLine"
-            android:selectAllOnFocus="false"
-            android:singleLine="false"
             android:textAlignment="viewStart"
+            android:textCursorDrawable="@null"
             app:errorEnabled="true" />
 
         <TextView
@@ -77,7 +78,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/FechaDeEstreno"
+            android:id="@+id/editar_fecha"
             android:layout_width="304dp"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -95,7 +96,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/Cantidad_Capitulos"
+            android:id="@+id/editar_capitulos"
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:backgroundTint="#515151"
@@ -116,7 +117,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/Horario_emision"
+            android:id="@+id/editar_horario"
             android:layout_width="306dp"
             android:layout_height="wrap_content"
             android:backgroundTint="#515151"
@@ -138,7 +139,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/Estudio_animacion"
+            android:id="@+id/editar_estudio"
             android:layout_width="304dp"
             android:layout_height="wrap_content"
             android:backgroundTint="#515151"
@@ -159,7 +160,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/autor"
+            android:id="@+id/editar_autor"
             android:layout_width="304dp"
             android:layout_height="wrap_content"
             android:backgroundTint="#515151"
@@ -176,7 +177,7 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/btnagregar"
+            android:id="@+id/btneditar"
             android:layout_width="151dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
