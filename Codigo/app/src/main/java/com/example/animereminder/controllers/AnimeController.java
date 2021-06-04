@@ -41,7 +41,7 @@ import java.util.UUID;
 public class AnimeController {
 
     //Variables Firebase
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    public static DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
     private Button mButtonCrear;
     private Button mButtonModificar;
@@ -62,8 +62,10 @@ public class AnimeController {
 
                 for (DataSnapshot objSnaptshot : snapshot.getChildren()){
                     Anime anime = objSnaptshot.getValue(Anime.class);
-                    listaAnime.add(anime);
-                    elements.add(new ListElement(anime.getNombre(),anime.getDescripcion()));
+                    if(!anime.isBorrado()){
+                        listaAnime.add(anime);
+                        elements.add(new ListElement(anime.getNombre(),anime.getDescripcion(), anime.getId()));
+                    }
                     //arrayAdapterAnime = new ArrayAdapter<Anime>(AnimeActivity.this, android.R.layout.simple_list_item_1, listaAnime);
                     //La linea de abajo permite enviar el listado al front (SETEA LA VARIABLE LLENANDOLA CON DATOS)
                     //listaVistaAnime.setAdapter(arrayAdapterAnime);
@@ -82,44 +84,14 @@ public class AnimeController {
     }
 
     public void crearAnime(Anime anime){
-        /*
-        SimpleDateFormat dia = new SimpleDateFormat("dd-mm-yyyy");
-        Date date = dia.parse("13:24:40",null);
-        SimpleDateFormat tiempo = new SimpleDateFormat("HH:MM:SS");
-        Date time = tiempo.parse("13:24:40",null);
-        Anime anime = new Anime();
-        anime.setId(UUID.randomUUID().toString());
-        anime.setNombre("setNombre");
-        anime.setDescripcion("setDescripcion");
-        anime.setAutor("setAutor");
-        anime.setEstudioDeAnimacion("setEstudioDeAnimacion");
-        anime.setFechaDeEstreno(date);
-        anime.setHorarioDeEmision(time);
-         */
-
-        databaseReference.child("Anime").child(anime.getId()).setValue(anime);
-
-    }
-
-    public void modificarAnime(){
-        SimpleDateFormat dia = new SimpleDateFormat("dd-mm-yyyy");
-        Date date = dia.parse("13:24:40",null);
-        SimpleDateFormat tiempo = new SimpleDateFormat("HH:MM:SS");
-        Date time = tiempo.parse("13:24:40",null);
-        Anime anime = new Anime();
-        anime.setId("getIdFront");
-        anime.setNombre("setNombre".trim());
-        anime.setDescripcion("setDescripcion".trim());
-        anime.setAutor("setAutor".trim());
-        anime.setEstudioDeAnimacion("setEstudioDeAnimacion".trim());
-        //anime.setFechaDeEstreno(date);
-        //anime.setHorarioDeEmision(time);
         databaseReference.child("Anime").child(anime.getId()).setValue(anime);
     }
 
-    public void eliminarAnime(){
-        Anime anime = new Anime();
-        anime.setId("getIdFront");
-        databaseReference.child("Anime").child(anime.getId()).removeValue();
+    public static void modificarAnime(Anime anime){
+        databaseReference.child("Anime").child(anime.getId()).setValue(anime);
+    }
+
+    public static void eliminarAnime(String idAnime){
+        databaseReference.child("Anime").child(idAnime).child("borrado").setValue(true);
     }
 }
