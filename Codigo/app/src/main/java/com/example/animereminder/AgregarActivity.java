@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,8 +26,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.animereminder.controllers.AnimeController;
 import com.example.animereminder.model.Anime;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -63,6 +70,7 @@ public class AgregarActivity extends AppCompatActivity {
     String estudio;
     String autor;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +89,9 @@ public class AgregarActivity extends AppCompatActivity {
 
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#35424a'>Agregar Anime</font>"));
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
 
 
         this.mBotonAgregar.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +156,30 @@ public class AgregarActivity extends AppCompatActivity {
 
                 try {
                     animeController.crearAnime(anime);
+                    StorageReference storageRef = storage.getReference().child("anime/"+anime.getNombre());
+
+                    // Get the data from an ImageView as bytes
+                    imagen.setDrawingCacheEnabled(true);
+                    imagen.buildDrawingCache();
+                    Bitmap bitmap = ((BitmapDrawable) imagen.getDrawable()).getBitmap();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] data = baos.toByteArray();
+
+                    UploadTask uploadTask = storageRef.putBytes(data);
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle unsuccessful uploads
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                            // ...
+                        }
+                    });
+
                     finish();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -240,6 +275,7 @@ public class AgregarActivity extends AppCompatActivity {
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                     this.imagen.setImageBitmap(bitmap);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
