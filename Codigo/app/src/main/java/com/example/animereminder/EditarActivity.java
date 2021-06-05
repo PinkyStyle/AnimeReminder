@@ -2,15 +2,20 @@ package com.example.animereminder;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -27,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -45,10 +51,15 @@ public class EditarActivity extends AppCompatActivity {
     int hora, minuto;
     private EditText mEstudio;
     private EditText mAutor;
+    private ImageView imagen;
 
     private Button mBotonEditar;
 
     private String idEditar;
+
+    private static final int PICK_IMAGE=1;
+    Uri imageUri;
+
 
     String Nombre;
     String Descripcion;
@@ -72,7 +83,7 @@ public class EditarActivity extends AppCompatActivity {
         this.mEstudio = findViewById(R.id.editar_estudio);
         this.mAutor = findViewById(R.id.editar_autor);
         this.mBotonEditar = findViewById(R.id.btneditar);
-        this.mCantidad.setText("1");
+        this.imagen = findViewById(R.id.editar_imagen);
 
         Bundle b = getIntent().getExtras();
         String idAnime = "";
@@ -103,6 +114,17 @@ public class EditarActivity extends AppCompatActivity {
 
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#35424a'>Editar Anime</font>"));
+
+        imagen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gallery = new Intent();
+                gallery.setType("image/*");
+                gallery.setAction(Intent.ACTION_GET_CONTENT);
+
+                startActivityForResult(Intent.createChooser(gallery, "Eliga una imagen"), PICK_IMAGE);
+            }
+        });
 
         this.mBotonEditar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,6 +258,22 @@ public class EditarActivity extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
+            imageUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                this.imagen.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 }
