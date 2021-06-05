@@ -2,15 +2,20 @@ package com.example.animereminder;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Button;
 import android.widget.Toast;
@@ -22,6 +27,7 @@ import com.example.animereminder.model.Anime;
 
 import com.google.firebase.auth.AuthResult;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,9 +47,12 @@ public class AgregarActivity extends AppCompatActivity {
     int hora, minuto;
     private EditText mEstudio;
     private EditText mAutor;
+    private ImageView imagen;
     private Button mBotonAgregar;
 
     private AnimeController animeController;
+    private static final int PICK_IMAGE=1;
+    Uri imageUri;
 
 
     String Nombre;
@@ -62,13 +71,13 @@ public class AgregarActivity extends AppCompatActivity {
 
         this.mNombre = findViewById(R.id.nombre_anime);
         this.mDescripcion = findViewById(R.id.descripcion_anime);
-        mDisplayDate = findViewById(R.id.FechaDeEstreno);
-        this.mCantidad = findViewById(R.id.Cantidad_Capitulos);
-        mHora = findViewById(R.id.Horario_emision);
-        this.mEstudio = findViewById(R.id.Estudio_animacion);
+        mDisplayDate = findViewById(R.id.fechaDeEstreno);
+        this.mCantidad = findViewById(R.id.cantidad_Capitulos);
+        mHora = findViewById(R.id.horario_emision);
+        this.mEstudio = findViewById(R.id.estudio_animacion);
         this.mAutor = findViewById(R.id.autor);
         this.mBotonAgregar = findViewById(R.id.btnagregar);
-        this.mCantidad.setText("1");
+        this.imagen = findViewById(R.id.Imagen);
 
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#35424a'>Agregar Anime</font>"));
@@ -144,6 +153,18 @@ public class AgregarActivity extends AppCompatActivity {
             }
         });
 
+        imagen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gallery = new Intent();
+                gallery.setType("image/*");
+                gallery.setAction(Intent.ACTION_GET_CONTENT);
+
+                startActivityForResult(Intent.createChooser(gallery, "Eliga una imagen"), PICK_IMAGE);
+            }
+        });
+
+
 
         mDisplayDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,6 +230,24 @@ public class AgregarActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+            if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
+                imageUri = data.getData();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                    this.imagen.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+    }
+
+
 
 }
 
