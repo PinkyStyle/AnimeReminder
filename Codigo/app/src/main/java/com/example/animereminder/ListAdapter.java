@@ -86,8 +86,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             description.setText(item.getDescription());
             id = item.getId();
             StorageReference storageRef = storage.getReference();
-            System.out.println("REFERENCIAAA!!!: "+storageRef.child("anime/"+titulo.getText().toString()));
-            storageRef.child("anime/"+titulo.getText().toString()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            storageRef.child("anime/"+id).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
                     Glide.with(context).load(uri).into(imagen);

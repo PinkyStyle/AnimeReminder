@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
 import com.example.animereminder.controllers.AnimeController;
 import com.example.animereminder.model.Anime;
 
@@ -156,7 +158,7 @@ public class AgregarActivity extends AppCompatActivity {
 
                 try {
                     animeController.crearAnime(anime);
-                    StorageReference storageRef = storage.getReference().child("anime/"+anime.getNombre());
+                    StorageReference storageRef = storage.getReference().child("anime/"+anime.getId());
 
                     // Get the data from an ImageView as bytes
                     imagen.setDrawingCacheEnabled(true);
@@ -272,13 +274,9 @@ public class AgregarActivity extends AppCompatActivity {
 
             if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
                 imageUri = data.getData();
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                    this.imagen.setImageBitmap(bitmap);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                //   Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                //   this.imagen.setImageBitmap(bitmap);
+                Glide.with(AgregarActivity.this).load(imageUri).into(imagen);
             }
 
     }

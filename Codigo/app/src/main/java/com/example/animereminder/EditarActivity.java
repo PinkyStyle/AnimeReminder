@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,16 +23,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.animereminder.controllers.AnimeController;
 import com.example.animereminder.model.Anime;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -68,6 +76,8 @@ public class EditarActivity extends AppCompatActivity {
     String emision;
     String estudio;
     String autor;
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
 
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -85,6 +95,8 @@ public class EditarActivity extends AppCompatActivity {
         this.mBotonEditar = findViewById(R.id.btneditar);
         this.imagen = findViewById(R.id.editar_imagen);
 
+
+
         Bundle b = getIntent().getExtras();
         String idAnime = "";
         if(b != null){
@@ -95,6 +107,7 @@ public class EditarActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                 if(task.isSuccessful()){
+
                     System.out.println(task.getResult().getValue());
                     Anime anime = task.getResult().getValue(Anime.class);
                     mNombre.setText(anime.getNombre());
@@ -105,6 +118,14 @@ public class EditarActivity extends AppCompatActivity {
                     mEstudio.setText(anime.getEstudioDeAnimacion());
                     mAutor.setText(anime.getAutor());
                     idEditar = anime.getId();
+                    StorageReference storageRef = storage.getReference();
+                    storageRef.child("anime/"+anime.getId()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Glide.with(EditarActivity.this).load(uri).into(imagen);
+                        }
+                    });
+
                 }
                 else{
                     System.out.println("No se obtuvieron los datos");
@@ -185,14 +206,37 @@ public class EditarActivity extends AppCompatActivity {
                 anime.setAutor(mAutor.getText().toString());
                 anime.setBorrado(false);
 
+
                 try {
                     AnimeController.modificarAnime(anime);
+                    StorageReference refImage = storageRef.child("anime/"+anime.getId());
+                    imagen.setDrawingCacheEnabled(true);
+                    imagen.buildDrawingCache();
+                    Bitmap bitmap = ((BitmapDrawable) imagen.getDrawable()).getBitmap();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] data = baos.toByteArray();
+
+                    UploadTask uploadTask = refImage.putBytes(data);
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle unsuccessful uploads
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                            // ...
+                        }
+                    });
                     finish();
                 }
                 catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(EditarActivity.this,"Error al modificar el Anime",Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
