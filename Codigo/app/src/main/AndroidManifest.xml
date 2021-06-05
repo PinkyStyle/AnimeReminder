@@ -9,10 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AnimeReminder">
-        <activity android:name=".NavigationActivity" android:label="wena los k"></activity>
-        <activity android:name=".HomeActivity"></activity>
-        <activity android:name=".AgregarActivity"></activity>
-        <activity android:name=".EditarActivity"></activity>
+        <activity android:name=".NavigationUserActivity"></activity>
+        <activity
+            android:name=".NavigationActivity"
+            android:label="wena los k" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".AgregarActivity" />
+        <activity android:name=".EditarActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

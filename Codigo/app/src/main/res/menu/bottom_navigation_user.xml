@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/firstFragment_user"
+        android:icon="@drawable/ic_format_list_text"
+        android:title="Temporada">
+
+    </item>
+    <item android:id="@+id/secondFragment_user"
+        android:icon="@drawable/ic_clipboard_list_outline"
+        android:title="Mi lista">
+
+    </item>
+</menu>
