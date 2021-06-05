@@ -59,12 +59,12 @@
         <EditText
             android:id="@+id/editar_descripcion"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#515151"
+            android:layout_height="138dp"
+            android:background="@drawable/border_edittext"
             android:backgroundTintMode="src_in"
             android:ems="10"
-            android:hint="Ingresa la descripción"
-            android:inputType="textEmailAddress"
+            android:hint=" Ingresa la descripción"
+            android:inputType="textMultiLine"
             android:textAlignment="viewStart"
             android:textCursorDrawable="@null"
             app:errorEnabled="true" />
