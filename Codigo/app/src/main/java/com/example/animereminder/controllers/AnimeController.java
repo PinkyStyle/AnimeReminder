@@ -2,6 +2,7 @@ package com.example.animereminder.controllers;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -12,11 +13,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.animereminder.AgregarActivity;
 import com.example.animereminder.ListAdapter;
 import com.example.animereminder.ListElement;
+import com.example.animereminder.ListUserAdapter;
+import com.example.animereminder.ListUserMiListaAdapter;
 import com.example.animereminder.R;
 import com.example.animereminder.RegisterActivity;
 import com.example.animereminder.TempAdminFragment;
@@ -52,7 +56,7 @@ public class AnimeController {
 
     List<ListElement> elements = new ArrayList<>();
 
-    public void listarAnime(View vista) {
+    public void listarAnime(View vista, String opcion) {
         databaseReference.child("Anime").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -70,10 +74,30 @@ public class AnimeController {
                     //La linea de abajo permite enviar el listado al front (SETEA LA VARIABLE LLENANDOLA CON DATOS)
                     //listaVistaAnime.setAdapter(arrayAdapterAnime);
                 }
-                ListAdapter listAdapter = new ListAdapter(elements,vista.getContext());
-                RecyclerView recyclerView = vista.findViewById(R.id.list_anime_all);
-                recyclerView.setAdapter(listAdapter);
 
+                switch (opcion){
+                    case "a":
+                        ListAdapter listAdapter = new ListAdapter(elements,vista.getContext());
+                        RecyclerView recyclerView = vista.findViewById(R.id.list_anime_all);
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(vista.getContext()));
+                        recyclerView.setAdapter(listAdapter);
+                        break;
+                    case "b":
+                        ListUserAdapter listUserAdapter = new ListUserAdapter(elements,vista.getContext());
+                        RecyclerView recyclerView2 = vista.findViewById(R.id.list_anime_all_user);
+                        recyclerView2.setHasFixedSize(true);
+                        recyclerView2.setLayoutManager(new LinearLayoutManager(vista.getContext()));
+                        recyclerView2.setAdapter(listUserAdapter);
+                        break;
+                    case "c":
+                        ListUserMiListaAdapter listUserMiListaAdapter = new ListUserMiListaAdapter(elements, vista.getContext());
+                        RecyclerView recyclerView3 = vista.findViewById(R.id.list_anime_milista_user);
+                        recyclerView3.setHasFixedSize(true);
+                        recyclerView3.setLayoutManager(new LinearLayoutManager(vista.getContext()));
+                        recyclerView3.setAdapter(listUserMiListaAdapter);
+                        break;
+                }
             }
 
             @Override

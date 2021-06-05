@@ -1,0 +1,104 @@
+package com.example.animereminder;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.animereminder.controllers.AnimeController;
+
+import java.util.List;
+
+
+public class ListUserMiListaAdapter extends RecyclerView.Adapter<ListUserMiListaAdapter.ViewHolder> {
+    private List<ListElement> mData;
+    private LayoutInflater mInflater;
+    private Context context;
+
+    public ListUserMiListaAdapter(List<ListElement> itemlist, Context context) {
+        this.mData = itemlist;
+        this.context = context;
+        this.mInflater = LayoutInflater.from(context);
+    }
+
+    @Override
+    public ListUserMiListaAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.item_list_user, null);
+        return new ListUserMiListaAdapter.ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(final ListUserMiListaAdapter.ViewHolder holder, final int position) {
+        holder.bindData(mData.get(position));
+        //eventos
+        holder.setOnClickListeners();
+    }
+
+    @Override
+    public int getItemCount() {
+        return mData.size();
+    }
+
+    public void setItems(List<ListElement> items) {
+        mData = items;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView titulo;
+        TextView description;
+        String id;
+        Button btnAnimeForo;
+        TextView all_anime;
+        CheckBox checkListUser;
+        Context context;
+        ViewHolder(View itemView) {
+            super(itemView);
+            context = itemView.getContext();
+            titulo = itemView.findViewById(R.id.titulo);
+            description = itemView.findViewById(R.id.description);
+            btnAnimeForo = itemView.findViewById(R.id.btnAnimeForo);
+            all_anime = itemView.findViewById(R.id.all_anime);
+            checkListUser = itemView.findViewById(R.id.checkListUser);
+        }
+        void bindData(final ListElement item){
+            titulo.setText(item.getTitulo());
+            description.setText(item.getDescription());
+            id = item.getId();
+        }
+
+        void setOnClickListeners() {
+            btnAnimeForo.setOnClickListener(this);
+            all_anime.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btnAnimeForo:
+                    Intent intent = new Intent(context, HomeActivity.class);
+                    intent.putExtra("texto","foro");
+                    context.startActivity(intent);
+                    break;
+                case R.id.all_anime:
+                    Intent intent2 = new Intent(context, HomeActivity.class);
+                    intent2.putExtra("texto","info anime");
+                    context.startActivity(intent2);
+                    break;
+                case R.id.checkListUser:
+
+                    break;
+            }
+        }
+    }
+}
