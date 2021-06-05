@@ -20,6 +20,7 @@ import com.example.animereminder.AgregarActivity;
 import com.example.animereminder.ListAdapter;
 import com.example.animereminder.ListElement;
 import com.example.animereminder.ListUserAdapter;
+import com.example.animereminder.ListUserMiListaAdapter;
 import com.example.animereminder.R;
 import com.example.animereminder.RegisterActivity;
 import com.example.animereminder.TempAdminFragment;
@@ -90,6 +91,11 @@ public class AnimeController {
                         recyclerView2.setAdapter(listUserAdapter);
                         break;
                     case "c":
+                        ListUserMiListaAdapter listUserMiListaAdapter = new ListUserMiListaAdapter(elements, vista.getContext());
+                        RecyclerView recyclerView3 = vista.findViewById(R.id.list_anime_milista_user);
+                        recyclerView3.setHasFixedSize(true);
+                        recyclerView3.setLayoutManager(new LinearLayoutManager(vista.getContext()));
+                        recyclerView3.setAdapter(listUserMiListaAdapter);
                         break;
                 }
             }

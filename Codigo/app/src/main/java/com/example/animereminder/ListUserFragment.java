@@ -8,13 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.animereminder.controllers.AnimeController;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ListUserFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class ListUserFragment extends Fragment {
-
+    List<ListElement> elements;
+    private AnimeController animeController;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -59,6 +65,11 @@ public class ListUserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_user, container, false);
+        View vista = inflater.inflate(R.layout.fragment_list_user, container, false);
+        this.elements = new ArrayList<>();
+        this.animeController = new AnimeController();
+        String opcion = "c";
+        this.animeController.listarAnime(vista, opcion);
+        return vista;
     }
 }
