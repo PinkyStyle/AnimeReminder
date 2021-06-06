@@ -87,9 +87,13 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                Intent i = new Intent(MainActivity.this, NavigationActivity.class);
-                                startActivity(i);
-                                finish();
+                                if (mEditTextEmail.getText().toString().equals("admin@gmail.com")) {
+                                    Intent i = new Intent(MainActivity.this, NavigationActivity.class);
+                                    startActivity(i);
+                                } else {
+                                    Intent i = new Intent(MainActivity.this, NavigationUserActivity.class);
+                                    startActivity(i);
+                                }
                             }
                             else{
                                 Toast.makeText(MainActivity.this,"Usuario o contraseña incorrectos. Inténtelo nuevamente",Toast.LENGTH_SHORT).show();
