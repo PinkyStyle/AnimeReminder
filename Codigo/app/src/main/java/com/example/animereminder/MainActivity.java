@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,12 +34,22 @@ public class MainActivity extends AppCompatActivity {
     private String email;
     private String password;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+
+            Intent i = new Intent(MainActivity.this, NavigationActivity.class);
+            startActivity(i);
+            finish();
+
+        }
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
+
+
 
         this.cna = (TextView) findViewById(R.id.createnewaccount);
         this.mEditTextEmail = (EditText) findViewById(R.id.etemail);
@@ -78,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 Intent i = new Intent(MainActivity.this, NavigationActivity.class);
                                 startActivity(i);
+                                finish();
                             }
                             else{
                                 Toast.makeText(MainActivity.this,"Usuario o contraseña incorrectos. Inténtelo nuevamente",Toast.LENGTH_SHORT).show();
