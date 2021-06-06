@@ -90,9 +90,11 @@ public class MainActivity extends AppCompatActivity {
                                 if (mEditTextEmail.getText().toString().equals("admin@gmail.com")) {
                                     Intent i = new Intent(MainActivity.this, NavigationActivity.class);
                                     startActivity(i);
+                                    finish();
                                 } else {
                                     Intent i = new Intent(MainActivity.this, NavigationUserActivity.class);
                                     startActivity(i);
+                                    finish();
                                 }
                             }
                             else{
