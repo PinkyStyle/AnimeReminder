@@ -20,7 +20,6 @@ import java.util.List;
  */
 public class ListUserFragment extends Fragment {
     List<ListElement> elements;
-    private AnimeController animeController;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -67,9 +66,8 @@ public class ListUserFragment extends Fragment {
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_list_user, container, false);
         this.elements = new ArrayList<>();
-        this.animeController = new AnimeController();
         String opcion = "c";
-        this.animeController.listarAnime(vista, opcion);
+        AnimeController.listarMiAnime(vista);
         return vista;
     }
 }

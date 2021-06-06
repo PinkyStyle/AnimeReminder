@@ -69,7 +69,6 @@ public class TempUserFragment extends Fragment {
         this.elements = new ArrayList<>();
         this.animeController = new AnimeController();
         String opcion = "b";
-
         this.animeController.listarAnime(vista, opcion);
 
         return vista;

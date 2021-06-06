@@ -1,6 +1,8 @@
 package com.example.animereminder.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Usuario {
@@ -8,10 +10,10 @@ public class Usuario {
     private String nickname;
     private String correo;
     private Boolean baneado;
-    private Map<String, Anime> listaAnime;
+    private List<String> listaAnime;
 
     public Usuario() {
-        listaAnime = new HashMap<>();
+        listaAnime = new ArrayList<>();
     }
 
     public String getNickname() {
@@ -38,11 +40,11 @@ public class Usuario {
         this.baneado = baneado;
     }
 
-    public Map<String, Anime> getListaAnime() {
+    public List<String> getListaAnime() {
         return listaAnime;
     }
 
-    public void setListaAnime(Map<String, Anime> listaAnime) {
+    public void setListaAnime(List<String> listaAnime) {
         this.listaAnime = listaAnime;
     }
 }

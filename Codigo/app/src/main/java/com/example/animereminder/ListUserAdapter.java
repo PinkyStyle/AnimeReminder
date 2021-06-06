@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -16,7 +17,13 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.animereminder.controllers.AnimeController;
+import com.example.animereminder.controllers.UsuarioController;
+import com.example.animereminder.model.Usuario;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -24,6 +31,8 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
     private List<ListElement> mData;
     private LayoutInflater mInflater;
     private Context context;
+
+
 
     public ListUserAdapter(List<ListElement> itemlist, Context context) {
         this.mData = itemlist;
@@ -62,8 +71,13 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
         TextView all_anime;
         CheckBox checkListUser;
         Context context;
+        ImageView imagen;
+        boolean checked;
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
         ViewHolder(View itemView) {
             super(itemView);
+            imagen = itemView.findViewById(R.id.img_anime);
             context = itemView.getContext();
             titulo = itemView.findViewById(R.id.titulo);
             description = itemView.findViewById(R.id.description);
@@ -72,20 +86,33 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
             checkListUser = itemView.findViewById(R.id.checkListUser);
         }
         void bindData(final ListElement item){
+            checked=item.isChecked();
+            if (checked){
+                checkListUser.setChecked(true);
+            }
             titulo.setText(item.getTitulo());
             description.setText(item.getDescription());
             id = item.getId();
+            StorageReference storageRef = storage.getReference();
+            storageRef.child("anime/"+id).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Glide.with(context).load(uri).into(imagen);
+                }
+            });
         }
 
         void setOnClickListeners() {
             btnAnimeForo.setOnClickListener(this);
             all_anime.setOnClickListener(this);
+            checkListUser.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btnAnimeForo:
+                    System.out.println("foro");
                     Intent intent = new Intent(context, HomeActivity.class);
                     intent.putExtra("texto","foro");
                     context.startActivity(intent);
@@ -96,6 +123,13 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
                     context.startActivity(intent2);
                     break;
                 case R.id.checkListUser:
+                    if (checkListUser.isChecked()) {
+                        UsuarioController.agregarAnimeMiLista(id);
+                    }
+                    else{
+                        UsuarioController.eliminarAnimeMiLista(id);
+                    }
+
 
                     break;
             }
