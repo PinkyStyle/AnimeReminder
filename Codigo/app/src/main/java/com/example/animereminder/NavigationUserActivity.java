@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
 
+import com.example.animereminder.controllers.AnimeController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;

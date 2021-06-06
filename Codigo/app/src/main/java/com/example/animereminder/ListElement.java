@@ -4,11 +4,13 @@ public class ListElement {
     public String titulo;
     public String description;
     public String id;
-    public ListElement(String textAux, String description, String id) {
+    public boolean isChecked;
+    public ListElement(String textAux, String description, String id, boolean isChecked) {
 
         this.titulo = textAux;
         this.description = description;
         this.id = id;
+        this.isChecked = isChecked;
     }
 
     public String getId() {
@@ -33,5 +35,13 @@ public class ListElement {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }
