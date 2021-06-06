@@ -77,9 +77,10 @@ public class TempAdminFragment extends Fragment {
         View vista = inflater.inflate(R.layout.fragment_temp_admin, container, false);
         this.elements = new ArrayList<>();
         this.animeController = new AnimeController();
-        this.animeController.listarAnime(vista);
+        String opcion = "a";
+        this.animeController.listarAnime(vista, opcion);
         this.add_anime = vista.findViewById(R.id.add_anime);
-        this.init(vista);
+        //this.init(vista);
         this.add_anime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
