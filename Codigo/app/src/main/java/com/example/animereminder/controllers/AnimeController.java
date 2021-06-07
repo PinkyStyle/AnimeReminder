@@ -65,13 +65,14 @@ public class AnimeController {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listaAnime.clear();
                 elements.clear();
+                AnimeController.getMiLista();
 
                 for (DataSnapshot objSnaptshot : snapshot.getChildren()){
                     Anime anime = objSnaptshot.getValue(Anime.class);
                     if(!anime.isBorrado()){
                         listaAnime.add(anime);
                         boolean checked = false;
-                        AnimeController.getMiLista();
+
                         System.out.println("------------TAMAÑO FUNCION listarAnime: "+ miLista.size());
                         for (String id : miLista){
                             if (anime.getId().equals(id)){
@@ -85,7 +86,7 @@ public class AnimeController {
                     //La linea de abajo permite enviar el listado al front (SETEA LA VARIABLE LLENANDOLA CON DATOS)
                     //listaVistaAnime.setAdapter(arrayAdapterAnime);
                 }
-
+                System.out.println("///////////////////Lista listaAnime: "+listaAnime.size());
                 switch (opcion){
                     case "a":
                         ListAdapter listAdapter = new ListAdapter(elements,vista.getContext());
