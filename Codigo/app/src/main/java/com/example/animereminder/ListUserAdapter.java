@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -16,7 +17,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.animereminder.controllers.AnimeController;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -24,6 +29,8 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
     private List<ListElement> mData;
     private LayoutInflater mInflater;
     private Context context;
+
+
 
     public ListUserAdapter(List<ListElement> itemlist, Context context) {
         this.mData = itemlist;
@@ -62,8 +69,12 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
         TextView all_anime;
         CheckBox checkListUser;
         Context context;
+        ImageView imagen;
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
         ViewHolder(View itemView) {
             super(itemView);
+            imagen = itemView.findViewById(R.id.img_anime);
             context = itemView.getContext();
             titulo = itemView.findViewById(R.id.titulo);
             description = itemView.findViewById(R.id.description);
@@ -75,6 +86,13 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
             titulo.setText(item.getTitulo());
             description.setText(item.getDescription());
             id = item.getId();
+            StorageReference storageRef = storage.getReference();
+            storageRef.child("anime/"+id).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Glide.with(context).load(uri).into(imagen);
+                }
+            });
         }
 
         void setOnClickListeners() {

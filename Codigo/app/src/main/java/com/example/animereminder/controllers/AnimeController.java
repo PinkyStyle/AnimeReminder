@@ -60,6 +60,7 @@ public class AnimeController {
         databaseReference.child("Anime").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 //para la pertistencia de datos esto de abajo tiene que morir al parecer
                 listaAnime.clear();
                 elements.clear();
