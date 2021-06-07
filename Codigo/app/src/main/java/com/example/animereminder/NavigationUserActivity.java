@@ -12,7 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.animereminder.controllers.AnimeController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,6 +41,7 @@ public class NavigationUserActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.cerrar_sesion){
             Toast.makeText(this,"Cerrar sesión",Toast.LENGTH_SHORT).show();
+            FirebaseAuth.getInstance().signOut();
         }
         return super.onOptionsItemSelected(item);
     }
