@@ -1,14 +1,21 @@
 package com.example.animereminder;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +74,27 @@ public class TempAdminFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        pantalla();
 
+    }
+
+    public int[] pantalla() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        int widthPixels = getResources().getDisplayMetrics().widthPixels;
+        int heightPixels = getResources().getDisplayMetrics().heightPixels;
+        float x = convertPxToDp(getContext(), widthPixels);
+        float y = convertPxToDp(getContext(),heightPixels);
+        int xi= (int)x;
+        int yi= (int)y;
+        int [] pantalla= new int[2];
+        pantalla[0] = xi;
+        pantalla[1] = yi;
+
+        return pantalla;
+    }
+
+    public float convertPxToDp(Context context, float px) {
+        return px / context.getResources().getDisplayMetrics().density;
     }
 
     @Override
@@ -88,6 +115,15 @@ public class TempAdminFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        int [] pantalla =  this.pantalla();
+        ConstraintLayout cs = vista.findViewById(R.id.layout_fragment_temp_admin);
+        Log.d("pantalla",String.valueOf(pantalla[1]));
+        //cs.setMaxHeight(pantalla[1]-80);
+        //cs.setMinHeight(pantalla[1]-80);
+        //cs.setMaxWidth();
+        cs.setMinimumHeight(pantalla[1]-80);
+        //RecyclerView recyclerView = vista.findViewById(R.id.list_anime_all);
+        //recyclerView.setHasFixedSize(true);
 
         return vista;
     }

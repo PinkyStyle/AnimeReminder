@@ -15,6 +15,7 @@
         <include layout="@layout/add_anime" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_fragment_temp_admin"
             android:layout_width="match_parent"
             android:layout_height="650dp">
 
