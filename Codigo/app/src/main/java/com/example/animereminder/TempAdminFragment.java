@@ -87,14 +87,20 @@ public class TempAdminFragment extends Fragment {
         int xi= (int)x;
         int yi= (int)y;
         int [] pantalla= new int[2];
-        pantalla[0] = xi;
-        pantalla[1] = yi;
+        pantalla[0] = widthPixels;
+        pantalla[1] = heightPixels;
 
         return pantalla;
     }
 
     public float convertPxToDp(Context context, float px) {
         return px / context.getResources().getDisplayMetrics().density;
+    }
+
+    public int dpToPx(int dp) {
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return px;
     }
 
     @Override
@@ -116,12 +122,14 @@ public class TempAdminFragment extends Fragment {
             }
         });
         int [] pantalla =  this.pantalla();
-        ConstraintLayout cs = vista.findViewById(R.id.layout_fragment_temp_admin);
+        androidx.constraintlayout.widget.ConstraintLayout cs = vista.findViewById(R.id.layout_fragment_temp_admin);
         Log.d("pantalla",String.valueOf(pantalla[1]));
         //cs.setMaxHeight(pantalla[1]-80);
-        //cs.setMinHeight(pantalla[1]-80);
+        cs.setMinHeight(pantalla[1]-dpToPx(80+70));
         //cs.setMaxWidth();
-        cs.setMinimumHeight(pantalla[1]-80);
+        //cs.setMinimumHeight(pantalla[1]);
+        //cs.setMinWidth(pantalla[0]);
+
         //RecyclerView recyclerView = vista.findViewById(R.id.list_anime_all);
         //recyclerView.setHasFixedSize(true);
 
