@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -125,7 +126,22 @@ public class TempAdminFragment extends Fragment {
         androidx.constraintlayout.widget.ConstraintLayout cs = vista.findViewById(R.id.layout_fragment_temp_admin);
         Log.d("pantalla",String.valueOf(pantalla[1]));
         //cs.setMaxHeight(pantalla[1]-80);
-        cs.setMinHeight(pantalla[1]-dpToPx(80+70));
+        int actionBarHeight = 0;
+        TypedValue tv = new TypedValue();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv,
+                    true))
+                actionBarHeight = TypedValue.complexToDimensionPixelSize(
+                        tv.data, getResources().getDisplayMetrics());
+        } else {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,
+                    getResources().getDisplayMetrics());
+        }
+        //Log.d("bar", String.valueOf(actionBarHeight));
+        float a = (float) actionBarHeight;
+        int p = (int) convertPxToDp(getContext(),a);
+        Log.d("bar", String.valueOf(p));
+        cs.setMinHeight(pantalla[1]-dpToPx(80+50+p));
         //cs.setMaxWidth();
         //cs.setMinimumHeight(pantalla[1]);
         //cs.setMinWidth(pantalla[0]);
