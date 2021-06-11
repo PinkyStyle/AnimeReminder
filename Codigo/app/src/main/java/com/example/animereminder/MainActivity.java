@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.animereminder.controllers.AnimeController;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                                     startActivity(i);
                                     finish();
                                 } else {
+                                    AnimeController.getMiLista();
                                     Intent i = new Intent(MainActivity.this, NavigationUserActivity.class);
                                     startActivity(i);
                                     finish();

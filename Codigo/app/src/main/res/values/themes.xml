@@ -11,6 +11,7 @@
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:actionOverflowButtonStyle">@style/dotMenu</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -28,5 +29,8 @@
 
     <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:colorAccent">@color/purple_700</item>
+    </style>
+    <style name="dotMenu" parent="android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_baseline_menu_24</item>
     </style>
 </resources>

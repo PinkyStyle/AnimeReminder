@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,31 +52,41 @@ public class AnimeController {
     private Button mButtonModificar;
     private Button mButtonEliminar;
 
-    private List<Anime> listaAnime = new ArrayList<Anime>();
+    private static List<Anime> listaAnime = new ArrayList<Anime>();
+    private static List<String> miLista = new ArrayList<>();
     //ArrayAdapter<Anime> arrayAdapterAnime;
 
     List<ListElement> elements = new ArrayList<>();
+
 
     public void listarAnime(View vista, String opcion) {
         databaseReference.child("Anime").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                //para la pertistencia de datos esto de abajo tiene que morir al parecer
                 listaAnime.clear();
                 elements.clear();
+                AnimeController.getMiLista();
 
                 for (DataSnapshot objSnaptshot : snapshot.getChildren()){
                     Anime anime = objSnaptshot.getValue(Anime.class);
                     if(!anime.isBorrado()){
                         listaAnime.add(anime);
-                        elements.add(new ListElement(anime.getNombre(),anime.getDescripcion(), anime.getId()));
+                        boolean checked = false;
+                        if(miLista!=null){
+                            for (String id : miLista){
+                                if (anime.getId().equals(id)){
+                                    checked = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        elements.add(new ListElement(anime.getNombre(),anime.getDescripcion(), anime.getId(), checked));
                     }
                     //arrayAdapterAnime = new ArrayAdapter<Anime>(AnimeActivity.this, android.R.layout.simple_list_item_1, listaAnime);
                     //La linea de abajo permite enviar el listado al front (SETEA LA VARIABLE LLENANDOLA CON DATOS)
                     //listaVistaAnime.setAdapter(arrayAdapterAnime);
                 }
-
                 switch (opcion){
                     case "a":
                         ListAdapter listAdapter = new ListAdapter(elements,vista.getContext());
@@ -108,6 +119,55 @@ public class AnimeController {
         });
     }
 
+    public static void listarMiAnime(View vista){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        List<ListElement> listaElemento = new ArrayList<>();
+        miLista = new ArrayList<>();
+
+        databaseReference.child("Usuario").child(user.getUid()).child("listaAnime").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listaElemento.clear();
+                for (DataSnapshot objSnaptshot : snapshot.getChildren()){
+                    String idAnime = objSnaptshot.getValue().toString();
+                    for (Anime anime : listaAnime){
+                        if (anime.getId().equals(idAnime)){
+                            listaElemento.add(new ListElement(anime.getNombre(), anime.getDescripcion(), anime.getId(), true));
+                            miLista.add(anime.getId());
+                            break;
+                        }
+                    }
+                }
+                ListUserMiListaAdapter listUserMiListaAdapter = new ListUserMiListaAdapter(listaElemento, vista.getContext());
+                RecyclerView recyclerView3 = vista.findViewById(R.id.list_anime_milista_user);
+                recyclerView3.setHasFixedSize(true);
+                recyclerView3.setLayoutManager(new LinearLayoutManager(vista.getContext()));
+                recyclerView3.setAdapter(listUserMiListaAdapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public static void getMiLista(){
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        databaseReference.child("Usuario").child(user.getUid()).child("listaAnime").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()){
+                    miLista = (List)task.getResult().getValue();
+
+                }
+            }
+        });
+
+    }
+
     public void crearAnime(Anime anime){
         databaseReference.child("Anime").child(anime.getId()).setValue(anime);
     }
@@ -119,4 +179,6 @@ public class AnimeController {
     public static void eliminarAnime(String idAnime){
         databaseReference.child("Anime").child(idAnime).child("borrado").setValue(true);
     }
+
+
 }

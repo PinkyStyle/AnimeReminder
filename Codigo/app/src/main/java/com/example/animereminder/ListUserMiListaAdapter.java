@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.animereminder.controllers.AnimeController;
+import com.example.animereminder.controllers.UsuarioController;
 
 import java.util.List;
 
@@ -75,11 +76,13 @@ public class ListUserMiListaAdapter extends RecyclerView.Adapter<ListUserMiLista
             titulo.setText(item.getTitulo());
             description.setText(item.getDescription());
             id = item.getId();
+            checkListUser.setChecked(true);
         }
 
         void setOnClickListeners() {
             btnAnimeForo.setOnClickListener(this);
             all_anime.setOnClickListener(this);
+            checkListUser.setOnClickListener(this);
         }
 
         @Override
@@ -96,7 +99,7 @@ public class ListUserMiListaAdapter extends RecyclerView.Adapter<ListUserMiLista
                     context.startActivity(intent2);
                     break;
                 case R.id.checkListUser:
-
+                    UsuarioController.eliminarAnimeMiLista(id);
                     break;
             }
         }

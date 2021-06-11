@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.animereminder.controllers.AnimeController;
+import com.example.animereminder.controllers.UsuarioController;
+import com.example.animereminder.model.Usuario;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -29,6 +31,8 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
     private List<ListElement> mData;
     private LayoutInflater mInflater;
     private Context context;
+
+    private UsuarioController usuarioController = new UsuarioController();
 
 
 
@@ -70,6 +74,7 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
         CheckBox checkListUser;
         Context context;
         ImageView imagen;
+        boolean checked;
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
         ViewHolder(View itemView) {
@@ -83,6 +88,10 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
             checkListUser = itemView.findViewById(R.id.checkListUser);
         }
         void bindData(final ListElement item){
+            checked=item.isChecked();
+            if (checked){
+                checkListUser.setChecked(true);
+            }
             titulo.setText(item.getTitulo());
             description.setText(item.getDescription());
             id = item.getId();
@@ -98,12 +107,14 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
         void setOnClickListeners() {
             btnAnimeForo.setOnClickListener(this);
             all_anime.setOnClickListener(this);
+            checkListUser.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btnAnimeForo:
+                    System.out.println("foro");
                     Intent intent = new Intent(context, HomeActivity.class);
                     intent.putExtra("texto","foro");
                     context.startActivity(intent);
@@ -114,6 +125,13 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
                     context.startActivity(intent2);
                     break;
                 case R.id.checkListUser:
+                    if (checkListUser.isChecked()) {
+                        usuarioController.agregarAnimeMiLista(id);
+                    }
+                    else{
+                        UsuarioController.eliminarAnimeMiLista(id);
+                    }
+
 
                     break;
             }
