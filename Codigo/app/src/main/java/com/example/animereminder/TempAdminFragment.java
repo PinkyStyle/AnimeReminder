@@ -141,7 +141,7 @@ public class TempAdminFragment extends Fragment {
         float a = (float) actionBarHeight;
         int p = (int) convertPxToDp(getContext(),a);
         Log.d("bar", String.valueOf(p));
-        cs.setMinHeight(pantalla[1]-dpToPx(80+50+p));
+        cs.setMinHeight(pantalla[1]-dpToPx(80+50+p+24));
         //cs.setMaxWidth();
         //cs.setMinimumHeight(pantalla[1]);
         //cs.setMinWidth(pantalla[0]);
