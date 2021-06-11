@@ -32,6 +32,8 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
     private LayoutInflater mInflater;
     private Context context;
 
+    private UsuarioController usuarioController = new UsuarioController();
+
 
 
     public ListUserAdapter(List<ListElement> itemlist, Context context) {
@@ -124,7 +126,7 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
                     break;
                 case R.id.checkListUser:
                     if (checkListUser.isChecked()) {
-                        UsuarioController.agregarAnimeMiLista(id);
+                        usuarioController.agregarAnimeMiLista(id);
                     }
                     else{
                         UsuarioController.eliminarAnimeMiLista(id);

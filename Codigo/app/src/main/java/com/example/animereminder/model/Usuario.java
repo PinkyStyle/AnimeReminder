@@ -13,7 +13,7 @@ public class Usuario {
     private List<String> listaAnime;
 
     public Usuario() {
-        listaAnime = new ArrayList<>();
+        listaAnime = new ArrayList<String>();
     }
 
     public String getNickname() {

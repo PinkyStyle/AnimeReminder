@@ -1,6 +1,7 @@
 package com.example.animereminder.controllers;
 
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -24,30 +25,33 @@ import java.util.ArrayList;
 
 public class UsuarioController {
 
+    private String idAnime;
     public static DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
     public static void crearUsuario(Usuario usuario, String id){
         databaseReference.child("Usuario").child(id).setValue(usuario);
     }
 
-    public static void agregarAnimeMiLista(String idAnime)
-    {
+    public void agregarAnimeMiLista(String a) {
+        idAnime = a;
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference.child("Usuario").child(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                 if(task.isSuccessful()){
-                    System.out.println(task.getResult().getValue());
                     Usuario usuario = task.getResult().getValue(Usuario.class);
-                    usuario.getListaAnime().add(idAnime);
-                    databaseReference.child("Usuario").child(user.getUid()).setValue(usuario);
+                    if (usuario != null) {
+                        usuario.getListaAnime().add(idAnime);
+                        databaseReference.child("Usuario").child(user.getUid()).setValue(usuario);
+                    } else {
+                        Log.d("usuario: ", "no logeado");
+                    }
                 }
                 else{
-                    System.out.println("No se obtuvieron los datos");
+                    Log.d("ERROR: ", "No se obtuvieron los datos");
                 }
             }
         });
-
     }
 
     public static void eliminarAnimeMiLista(String idAnime)
@@ -67,7 +71,7 @@ public class UsuarioController {
 
                 }
                 else{
-                    System.out.println("No se obtuvieron los datos");
+                    Log.d("ERROR: ", "No se obtuvieron los datos");
                 }
             }
         });
