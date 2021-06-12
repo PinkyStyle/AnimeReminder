@@ -13,8 +13,9 @@
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_fragment_list_user"
             android:layout_width="match_parent"
-            android:layout_height="651dp">
+            android:layout_height="wrap_content">
         <include
             layout="@layout/list_anime_user"
             android:layout_width="0dp"

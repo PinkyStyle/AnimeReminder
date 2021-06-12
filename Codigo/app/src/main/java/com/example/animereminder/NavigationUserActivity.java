@@ -51,6 +51,9 @@ public class NavigationUserActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    ///public void onMessageReceived(Remote) {
+    //}
+
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NotNull MenuItem item) {
@@ -73,4 +76,6 @@ public class NavigationUserActivity extends AppCompatActivity {
         transaction.replace(R.id.frame_container_user, fragment);
         transaction.commit();
     }
+
+
 }
