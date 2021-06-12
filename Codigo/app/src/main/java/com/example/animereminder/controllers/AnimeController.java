@@ -72,21 +72,21 @@ public class AnimeController {
                     if(!anime.isBorrado()){
                         listaAnime.add(anime);
                         boolean checked = false;
-
-                        System.out.println("------------TAMAÑO FUNCION listarAnime: "+ miLista.size());
-                        for (String id : miLista){
-                            if (anime.getId().equals(id)){
-                                checked = true;
-                                break;
+                        if(miLista!=null){
+                            for (String id : miLista){
+                                if (anime.getId().equals(id)){
+                                    checked = true;
+                                    break;
+                                }
                             }
                         }
+
                         elements.add(new ListElement(anime.getNombre(),anime.getDescripcion(), anime.getId(), checked));
                     }
                     //arrayAdapterAnime = new ArrayAdapter<Anime>(AnimeActivity.this, android.R.layout.simple_list_item_1, listaAnime);
                     //La linea de abajo permite enviar el listado al front (SETEA LA VARIABLE LLENANDOLA CON DATOS)
                     //listaVistaAnime.setAdapter(arrayAdapterAnime);
                 }
-                System.out.println("///////////////////Lista listaAnime: "+listaAnime.size());
                 switch (opcion){
                     case "a":
                         ListAdapter listAdapter = new ListAdapter(elements,vista.getContext());
@@ -122,12 +122,12 @@ public class AnimeController {
     public static void listarMiAnime(View vista){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         List<ListElement> listaElemento = new ArrayList<>();
+        miLista = new ArrayList<>();
+
         databaseReference.child("Usuario").child(user.getUid()).child("listaAnime").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 listaElemento.clear();
-                miLista.clear();
                 for (DataSnapshot objSnaptshot : snapshot.getChildren()){
                     String idAnime = objSnaptshot.getValue().toString();
                     for (Anime anime : listaAnime){
@@ -161,7 +161,6 @@ public class AnimeController {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()){
                     miLista = (List)task.getResult().getValue();
-                    System.out.println("||||||||||||||TAMAÑO FUNCION getMiLista: "+miLista.size());
 
                 }
             }
