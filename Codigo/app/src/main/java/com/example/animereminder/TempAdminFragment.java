@@ -80,17 +80,11 @@ public class TempAdminFragment extends Fragment {
     }
 
     public int[] pantalla() {
-        DisplayMetrics metrics = new DisplayMetrics();
         int widthPixels = getResources().getDisplayMetrics().widthPixels;
         int heightPixels = getResources().getDisplayMetrics().heightPixels;
-        float x = convertPxToDp(getContext(), widthPixels);
-        float y = convertPxToDp(getContext(),heightPixels);
-        int xi= (int)x;
-        int yi= (int)y;
         int [] pantalla= new int[2];
         pantalla[0] = widthPixels;
         pantalla[1] = heightPixels;
-
         return pantalla;
     }
 
@@ -114,7 +108,6 @@ public class TempAdminFragment extends Fragment {
         String opcion = "a";
         this.animeController.listarAnime(vista, opcion);
         this.add_anime = vista.findViewById(R.id.add_anime);
-        //this.init(vista);
         this.add_anime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,8 +117,6 @@ public class TempAdminFragment extends Fragment {
         });
         int [] pantalla =  this.pantalla();
         androidx.constraintlayout.widget.ConstraintLayout cs = vista.findViewById(R.id.layout_fragment_temp_admin);
-        Log.d("pantalla",String.valueOf(pantalla[1]));
-        //cs.setMaxHeight(pantalla[1]-80);
         int actionBarHeight = 0;
         TypedValue tv = new TypedValue();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -137,18 +128,9 @@ public class TempAdminFragment extends Fragment {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,
                     getResources().getDisplayMetrics());
         }
-        //Log.d("bar", String.valueOf(actionBarHeight));
         float a = (float) actionBarHeight;
         int p = (int) convertPxToDp(getContext(),a);
-        Log.d("bar", String.valueOf(p));
         cs.setMinHeight(pantalla[1]-dpToPx(80+50+p+24));
-        //cs.setMaxWidth();
-        //cs.setMinimumHeight(pantalla[1]);
-        //cs.setMinWidth(pantalla[0]);
-
-        //RecyclerView recyclerView = vista.findViewById(R.id.list_anime_all);
-        //recyclerView.setHasFixedSize(true);
-
         return vista;
     }
 
