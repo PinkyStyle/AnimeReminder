@@ -19,6 +19,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.StorageReference;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -43,6 +46,7 @@ public class UsuarioController {
                     if (usuario != null) {
                         usuario.getListaAnime().add(idAnime);
                         databaseReference.child("Usuario").child(user.getUid()).setValue(usuario);
+                        FirebaseMessaging.getInstance().subscribeToTopic(idAnime);
                     } else {
                         Log.d("usuario: ", "no logeado");
                     }
@@ -66,6 +70,7 @@ public class UsuarioController {
                     if(usuario.getListaAnime().contains(idAnime)){
                         usuario.getListaAnime().remove(idAnime);
                         databaseReference.child("Usuario").child(user.getUid()).setValue(usuario);
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic(idAnime);
                     }
 
 
