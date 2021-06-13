@@ -127,9 +127,7 @@ public class AnimeController {
         databaseReference.child("Usuario").child(user.getUid()).child("listaAnime").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 listaElemento.clear();
-                miLista.clear();
                 for (DataSnapshot objSnaptshot : snapshot.getChildren()){
                     String idAnime = objSnaptshot.getValue().toString();
                     for (Anime anime : listaAnime){
