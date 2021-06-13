@@ -39,11 +39,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-
-            Intent i = new Intent(MainActivity.this, NavigationActivity.class);
-            startActivity(i);
-            finish();
-
+            if(!user.getEmail().equals("admin@gmail.com")) {
+                Intent i = new Intent(MainActivity.this, NavigationUserActivity.class);
+                startActivity(i);
+                finish();
+            }
+            else{
+                Intent i = new Intent(MainActivity.this, NavigationActivity.class);
+                startActivity(i);
+                finish();
+            }
         }
         super.onCreate(savedInstanceState);
 
