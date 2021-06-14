@@ -1,14 +1,22 @@
 package com.example.animereminder;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +75,27 @@ public class TempAdminFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        pantalla();
 
+    }
+
+    public int[] pantalla() {
+        int widthPixels = getResources().getDisplayMetrics().widthPixels;
+        int heightPixels = getResources().getDisplayMetrics().heightPixels;
+        int [] pantalla= new int[2];
+        pantalla[0] = widthPixels;
+        pantalla[1] = heightPixels;
+        return pantalla;
+    }
+
+    public float convertPxToDp(Context context, float px) {
+        return px / context.getResources().getDisplayMetrics().density;
+    }
+
+    public int dpToPx(int dp) {
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return px;
     }
 
     @Override
@@ -80,7 +108,6 @@ public class TempAdminFragment extends Fragment {
         String opcion = "a";
         this.animeController.listarAnime(vista, opcion);
         this.add_anime = vista.findViewById(R.id.add_anime);
-        //this.init(vista);
         this.add_anime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +115,22 @@ public class TempAdminFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
+        int [] pantalla =  this.pantalla();
+        androidx.constraintlayout.widget.ConstraintLayout cs = vista.findViewById(R.id.layout_fragment_temp_admin);
+        int actionBarHeight = 0;
+        TypedValue tv = new TypedValue();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv,
+                    true))
+                actionBarHeight = TypedValue.complexToDimensionPixelSize(
+                        tv.data, getResources().getDisplayMetrics());
+        } else {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,
+                    getResources().getDisplayMetrics());
+        }
+        float a = (float) actionBarHeight;
+        int p = (int) convertPxToDp(getContext(),a);
+        cs.setMinHeight(pantalla[1]-dpToPx(80+50+p+24));
         return vista;
     }
 
