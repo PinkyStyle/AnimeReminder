@@ -58,6 +58,12 @@ public class InfoActivity extends AppCompatActivity{
     private TextView hora;
     private TextView estudio;
     private TextView autor;
+    private ImageView imagen;
+
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +76,42 @@ public class InfoActivity extends AppCompatActivity{
         this.hora = findViewById(R.id.info_horario);
         this.estudio = findViewById(R.id.info_estudio);
         this.autor = findViewById(R.id.info_autor);
+        this.imagen = findViewById(R.id.info_imagen);
 
+        Bundle b = getIntent().getExtras();
+        String idAnime = "";
+        if(b != null){
+            idAnime = b.getString("id");
+        }
+
+        databaseReference.child("Anime").child(idAnime).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                if(task.isSuccessful()){
+
+                    System.out.println(task.getResult().getValue());
+                    Anime anime = task.getResult().getValue(Anime.class);
+                    nombre.setText(anime.getNombre());
+                    descripcion.setText(anime.getDescripcion());
+                    fecha.setText(anime.getFechaDeEstreno());
+                    capitulos.setText(anime.getNumCapitulos());
+                    hora.setText(anime.getHorarioDeEmision());
+                    estudio.setText(anime.getEstudioDeAnimacion());
+                    autor.setText(anime.getAutor());
+                    StorageReference storageRef = storage.getReference();
+                    storageRef.child("anime/"+anime.getId()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Glide.with(InfoActivity.this).load(uri).into(imagen);
+                        }
+                    });
+
+                }
+                else{
+                    System.out.println("No se obtuvieron los datos");
+                }
+            }
+        });
 
     }
 }

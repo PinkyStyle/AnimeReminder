@@ -111,6 +111,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                     break;
                 case R.id.all_anime:
                     Intent intent2 = new Intent(context, InfoActivity.class);
+                    Bundle a = new Bundle();
+                    a.putString("id",id);
+                    intent2.putExtras(a);
                     context.startActivity(intent2);
                     break;
                 case R.id.edit_anime:
