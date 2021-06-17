@@ -1,9 +1,13 @@
 package com.example.animereminder;
 
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +64,25 @@ public class ListUserFragment extends Fragment {
         }
     }
 
+    public int[] pantalla() {
+        int widthPixels = getResources().getDisplayMetrics().widthPixels;
+        int heightPixels = getResources().getDisplayMetrics().heightPixels;
+        int [] pantalla= new int[2];
+        pantalla[0] = widthPixels;
+        pantalla[1] = heightPixels;
+        return pantalla;
+    }
+
+    public float convertPxToDp(Context context, float px) {
+        return px / context.getResources().getDisplayMetrics().density;
+    }
+
+    public int dpToPx(int dp) {
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return px;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,6 +91,22 @@ public class ListUserFragment extends Fragment {
         this.elements = new ArrayList<>();
         String opcion = "c";
         AnimeController.listarMiAnime(vista);
+        int [] pantalla =  this.pantalla();
+        androidx.constraintlayout.widget.ConstraintLayout cs = vista.findViewById(R.id.layout_fragment_list_user);
+        int actionBarHeight = 0;
+        TypedValue tv = new TypedValue();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv,
+                    true))
+                actionBarHeight = TypedValue.complexToDimensionPixelSize(
+                        tv.data, getResources().getDisplayMetrics());
+        } else {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,
+                    getResources().getDisplayMetrics());
+        }
+        float a = (float) actionBarHeight;
+        int p = (int) convertPxToDp(getContext(),a);
+        cs.setMinHeight(pantalla[1]-dpToPx(80+50+p+24));
         return vista;
     }
 }
