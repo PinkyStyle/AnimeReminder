@@ -180,5 +180,9 @@ public class AnimeController {
         databaseReference.child("Anime").child(idAnime).child("borrado").setValue(true);
     }
 
+    public Anime obtenerAnime(String idAnime) {
+        return listaAnime.get(Integer.parseInt(idAnime));
+    }
+
 
 }
