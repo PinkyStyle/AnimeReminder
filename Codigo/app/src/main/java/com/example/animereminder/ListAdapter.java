@@ -110,8 +110,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                     context.startActivity(intent);
                     break;
                 case R.id.all_anime:
-                    Intent intent2 = new Intent(context, HomeActivity.class);
-                    intent2.putExtra("texto","info anime");
+                    Intent intent2 = new Intent(context, InfoActivity.class);
                     context.startActivity(intent2);
                     break;
                 case R.id.edit_anime:
