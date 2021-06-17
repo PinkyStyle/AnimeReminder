@@ -120,8 +120,10 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
                     context.startActivity(intent);
                     break;
                 case R.id.all_anime:
-                    Intent intent2 = new Intent(context, HomeActivity.class);
-                    intent2.putExtra("texto","info anime");
+                    Intent intent2 = new Intent(context, InfoActivity.class);
+                    Bundle a = new Bundle();
+                    a.putString("id",id);
+                    intent2.putExtras(a);
                     context.startActivity(intent2);
                     break;
                 case R.id.checkListUser:

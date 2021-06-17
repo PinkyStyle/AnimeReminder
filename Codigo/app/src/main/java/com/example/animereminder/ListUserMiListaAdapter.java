@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -16,8 +17,12 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.animereminder.controllers.AnimeController;
 import com.example.animereminder.controllers.UsuarioController;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -63,6 +68,9 @@ public class ListUserMiListaAdapter extends RecyclerView.Adapter<ListUserMiLista
         TextView all_anime;
         CheckBox checkListUser;
         Context context;
+        ImageView imagen;
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
         ViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
@@ -71,12 +79,20 @@ public class ListUserMiListaAdapter extends RecyclerView.Adapter<ListUserMiLista
             btnAnimeForo = itemView.findViewById(R.id.btnAnimeForo);
             all_anime = itemView.findViewById(R.id.all_anime);
             checkListUser = itemView.findViewById(R.id.checkListUser);
+            imagen = itemView.findViewById(R.id.img_anime);
         }
         void bindData(final ListElement item){
             titulo.setText(item.getTitulo());
             description.setText(item.getDescription());
             id = item.getId();
             checkListUser.setChecked(true);
+            StorageReference storageRef = storage.getReference();
+            storageRef.child("anime/"+id).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Glide.with(context).load(uri).into(imagen);
+                }
+            });
         }
 
         void setOnClickListeners() {
