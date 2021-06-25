@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/titulo3"
+                    android:id="@+id/titulo_foro"
                     android:layout_width="411dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="6dp"
@@ -46,7 +46,7 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/img_anime5"
+                            android:id="@+id/imagen_anime"
                             android:layout_width="332dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -60,7 +60,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/description6"
+                                android:id="@+id/descripcion_foro"
                                 android:layout_width="match_parent"
                                 android:layout_height="206dp"
                                 android:layout_marginBottom="15dp"
@@ -73,7 +73,7 @@
                                 android:orientation="horizontal">
 
                                 <TextView
-                                    android:id="@+id/all_anime3"
+                                    android:id="@+id/all_anime_foro"
                                     android:layout_width="wrap_content"
                                     android:layout_height="30dp"
                                     android:layout_weight="1"
@@ -96,6 +96,7 @@
             android:textSize="24sp" />
 
         <ListView
+            android:id="@+id/comentarios_foro"
             android:layout_width="match_parent"
             android:layout_height="371dp"
             android:background="#FFFFFF">
