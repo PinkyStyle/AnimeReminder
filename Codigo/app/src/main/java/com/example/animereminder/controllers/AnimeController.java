@@ -65,7 +65,7 @@ public class AnimeController {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listaAnime.clear();
                 elements.clear();
-                AnimeController.getMiLista();
+                //AnimeController.getMiLista();
 
                 for (DataSnapshot objSnaptshot : snapshot.getChildren()){
                     Anime anime = objSnaptshot.getValue(Anime.class);
