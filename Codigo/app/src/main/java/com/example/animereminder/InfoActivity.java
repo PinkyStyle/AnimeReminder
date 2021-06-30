@@ -104,6 +104,11 @@ public class InfoActivity extends AppCompatActivity{
                         public void onSuccess(Uri uri) {
                             Glide.with(InfoActivity.this).load(uri).into(imagen);
                         }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("Error", e.toString());
+                        }
                     });
 
                 }

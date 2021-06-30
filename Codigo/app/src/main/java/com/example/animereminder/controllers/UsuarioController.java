@@ -12,8 +12,11 @@ import com.example.animereminder.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -80,6 +83,25 @@ public class UsuarioController {
                 }
             }
         });
+    }
 
+    public static void modificarUsuario(String id, String correo, String nombre, String contraseña){
+        databaseReference.child("Usuario").child(id).child("nickname").setValue(nombre);
+        databaseReference.child("Usuario").child(id).child("correo").setValue(correo);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        AuthCredential credencial = EmailAuthProvider.getCredential(user.getEmail(), contraseña);
+        user.reauthenticate(credencial);
+
+        user.updateEmail(correo).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    Log.d("update correo", "TA WENOOOOOOOOOOOOOOO");
+                }
+                else {
+                    Log.d("update correo", "EEERROOOOOOOOOOOORRRRRRR");
+                }
+            }
+        });
     }
 }
