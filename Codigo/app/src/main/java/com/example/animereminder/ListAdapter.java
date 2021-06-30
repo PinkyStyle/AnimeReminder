@@ -26,6 +26,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
+import android.os.Vibrator;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private List<ListElement> mData;
@@ -138,6 +139,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             AnimeController.eliminarAnime(id);
+                            Vibrator v = (Vibrator) ListAdapter.this.context.getSystemService(Context.VIBRATOR_SERVICE);
+                            v.vibrate(400);
                             dialog.cancel();
                         }
                     });

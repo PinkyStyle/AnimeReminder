@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
+import android.os.Vibrator;
 
 public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHolder> {
     private List<ListElement> mData;
@@ -140,6 +142,8 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
                         usuarioController.agregarAnimeMiLista(id);
                     }
                     else{
+                        Vibrator vi = (Vibrator) ListUserAdapter.this.context.getSystemService(Context.VIBRATOR_SERVICE);
+                        vi.vibrate(400);
                         UsuarioController.eliminarAnimeMiLista(id);
                     }
 
