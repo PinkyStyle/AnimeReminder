@@ -113,8 +113,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btnAnimeForo:
-                    Intent intent = new Intent(context, HomeActivity.class);
-                    intent.putExtra("texto","foro");
+                    Intent intent = new Intent(context, ForoActivity.class);
                     context.startActivity(intent);
                     break;
                 case R.id.all_anime:
