@@ -90,6 +90,8 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.foro_anime);
+        getSupportActionBar().setTitle("Foro");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.nombre = findViewById(R.id.titulo_foro);
         this.descripcion = findViewById(R.id.descripcion_foro);
         this.imagen = findViewById(R.id.imagen_anime_foro);
@@ -138,6 +140,12 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return false;
     }
 
     private void fetchLocation() {
