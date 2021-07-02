@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.Build;
 import android.util.Log;
 
@@ -48,6 +49,8 @@ public class Notificacion extends FirebaseMessagingService {
             assert notificationManager != null;
             notificationManager.createNotificationChannel(notificationChannel);
         }
+        //.setPriority(NotificationCompat.PRIORITY_HIGH).setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)).setVibrate(new long[]{0, 300, 200, 300});
+
         builder.setAutoCancel(true).setWhen(System.currentTimeMillis()).setContentTitle(titulo).setSmallIcon(R.mipmap.ic_launcher).setContentText(descripcion).setContentIntent(clickNotify()).setContentInfo("nuevo");
         Random random = new Random();
         int idNotify = random.nextInt(8000);

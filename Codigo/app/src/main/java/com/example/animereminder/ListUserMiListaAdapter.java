@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -26,7 +27,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
+import android.os.Vibrator;
 import java.util.List;
 
 
@@ -124,6 +125,8 @@ public class ListUserMiListaAdapter extends RecyclerView.Adapter<ListUserMiLista
                     break;
                 case R.id.checkListUser:
                     UsuarioController.eliminarAnimeMiLista(id);
+                    Vibrator vi = (Vibrator) ListUserMiListaAdapter.this.context.getSystemService(Context.VIBRATOR_SERVICE);
+                    vi.vibrate(400);
                     break;
             }
         }

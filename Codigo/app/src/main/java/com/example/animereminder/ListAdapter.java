@@ -26,6 +26,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
+import android.os.Vibrator;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private List<ListElement> mData;
@@ -113,8 +114,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btnAnimeForo:
-                    Intent intent = new Intent(context, HomeActivity.class);
-                    intent.putExtra("texto","foro");
+                    Intent intent = new Intent(context, ForoActivity.class);
                     context.startActivity(intent);
                     break;
                 case R.id.all_anime:
@@ -139,6 +139,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             AnimeController.eliminarAnime(id);
+                            Vibrator v = (Vibrator) ListAdapter.this.context.getSystemService(Context.VIBRATOR_SERVICE);
+                            v.vibrate(400);
                             dialog.cancel();
                         }
                     });

@@ -26,139 +26,152 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <ImageView
-                    android:id="@+id/info_imagen"
-                    android:layout_width="347dp"
-                    android:layout_height="215dp"
-                    android:layout_gravity="center"
-                    android:textAlignment="gravity"
-                    app:srcCompat="@android:drawable/ic_menu_camera" />
+                    android:layout_height="20dp" />
 
                 <TextView
                     android:id="@+id/info_título"
-                    android:layout_width="348dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Título"
                     android:textAlignment="center"
-                    android:textSize="30sp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
+                <ImageView
+                    android:id="@+id/info_imagen"
+                    android:layout_width="300dp"
+                    android:layout_height="220dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:textAlignment="gravity"
+                    app:srcCompat="@android:drawable/ic_menu_camera" />
+
                 <TextView
-                    android:layout_width="346dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
                     android:text="Descripción"
-                    android:textAlignment="center"
+                    android:textAlignment="textStart"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="24sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/info_descripcion"
-                    android:layout_width="343dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Aca va la descripción"
-                    android:textAlignment="center"
+                    android:textAlignment="textStart"
                     android:textSize="18sp" />
 
                 <TextView
-                    android:layout_width="344dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
                     android:text="Fecha de estreno"
-                    android:textAlignment="center"
+                    android:textAlignment="textStart"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="24sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/info_estreno"
-                    android:layout_width="339dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Aca va la fecha"
-                    android:textAlignment="center"
+                    android:textAlignment="textStart"
                     android:textSize="18sp" />
 
                 <TextView
-                    android:layout_width="342dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
                     android:text="Total de capítulos"
-                    android:textAlignment="center"
+                    android:textAlignment="textStart"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="24sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/info_capitulos"
-                    android:layout_width="338dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Aca van los capítulos"
-                    android:textAlignment="center"
+                    android:textAlignment="textStart"
                     android:textSize="18sp" />
 
                 <TextView
-                    android:layout_width="341dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
                     android:text="Hora de emisión"
-                    android:textAlignment="center"
+                    android:textAlignment="textStart"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="24sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/info_horario"
-                    android:layout_width="336dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Aca va la hora"
-                    android:textAlignment="center"
+                    android:textAlignment="textStart"
                     android:textSize="18sp" />
 
                 <TextView
-                    android:layout_width="338dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
                     android:text="Estudio de animación"
-                    android:textAlignment="center"
+                    android:textAlignment="textStart"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="24sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/info_estudio"
-                    android:layout_width="338dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Aca va el estudio"
-                    android:textAlignment="center"
+                    android:textAlignment="textStart"
                     android:textSize="18sp" />
 
                 <TextView
-                    android:layout_width="344dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
                     android:text="Autor"
-                    android:textAlignment="center"
+                    android:textAlignment="textStart"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="24sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/info_autor"
-                    android:layout_width="348dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Aca va el autor"
-                    android:textAlignment="center"
+                    android:textAlignment="textStart"
                     android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
 
             </LinearLayout>
         </ScrollView>

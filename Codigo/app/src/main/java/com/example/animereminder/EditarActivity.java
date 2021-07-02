@@ -138,8 +138,9 @@ public class EditarActivity extends AppCompatActivity {
             }
         });
 
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
-        getSupportActionBar().setTitle(Html.fromHtml("<font color='#35424a'>Editar Anime</font>"));
+        //getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+        getSupportActionBar().setTitle("Editar Anime");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         imagen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -323,6 +324,12 @@ public class EditarActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return false;
     }
 
 }

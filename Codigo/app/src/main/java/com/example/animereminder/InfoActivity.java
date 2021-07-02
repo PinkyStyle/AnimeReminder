@@ -69,6 +69,8 @@ public class InfoActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.info_anime);
+        getSupportActionBar().setTitle("Información Anime");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.nombre = findViewById(R.id.info_título);
         this.descripcion = findViewById(R.id.info_descripcion);
         this.fecha = findViewById(R.id.info_estreno);
@@ -118,5 +120,11 @@ public class InfoActivity extends AppCompatActivity{
             }
         });
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return false;
     }
 }
