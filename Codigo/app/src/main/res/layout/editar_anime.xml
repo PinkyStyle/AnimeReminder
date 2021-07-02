@@ -23,21 +23,9 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:text="Editar Anime"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/colorText"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
-
-                <TextView
                     android:id="@+id/textView29"
                     android:layout_width="300dp"
-                    android:layout_height="31dp"
+                    android:layout_height="20dp"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_horizontal" />
 

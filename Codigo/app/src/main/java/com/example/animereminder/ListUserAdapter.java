@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,17 +17,20 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.animereminder.controllers.AnimeController;
 import com.example.animereminder.controllers.UsuarioController;
 import com.example.animereminder.model.Usuario;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
+import android.os.Vibrator;
 
 public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHolder> {
     private List<ListElement> mData;
@@ -101,7 +106,13 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
                 public void onSuccess(Uri uri) {
                     Glide.with(context).load(uri).into(imagen);
                 }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("Error", e.toString());
+                }
             });
+
         }
 
         void setOnClickListeners() {
@@ -115,8 +126,7 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
             switch (v.getId()) {
                 case R.id.btnAnimeForo:
                     System.out.println("foro");
-                    Intent intent = new Intent(context, HomeActivity.class);
-                    intent.putExtra("texto","foro");
+                    Intent intent = new Intent(context, ForoActivity.class);
                     context.startActivity(intent);
                     break;
                 case R.id.all_anime:
@@ -131,6 +141,8 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
                         usuarioController.agregarAnimeMiLista(id);
                     }
                     else{
+                        Vibrator vi = (Vibrator) ListUserAdapter.this.context.getSystemService(Context.VIBRATOR_SERVICE);
+                        vi.vibrate(400);
                         UsuarioController.eliminarAnimeMiLista(id);
                     }
 
