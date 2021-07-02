@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PerfilActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_weight="0"
+            android:textColor="@color/colorText" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="299dp"
+            android:layout_height="wrap_content"
+            android:text="Correo"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/correo_usuario_perfil"
+            android:layout_width="299dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#515151"
+            android:backgroundTintMode="src_in"
+            android:inputType="textEmailAddress"
+            android:textCursorDrawable="@null"
+            />
+
+        <TextView
+            android:id="@+id/textView41"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:textColor="@color/colorText" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="299dp"
+            android:layout_height="wrap_content"
+            android:text="Nombre de usuario"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/nombre_usuario_perfil"
+            android:layout_width="299dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#515151"
+            android:backgroundTintMode="src_in"
+            android:inputType="textPersonName"
+            android:textCursorDrawable="@null"
+             />
+
+        <TextView
+            android:id="@+id/textView42"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:textColor="@color/colorText" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="298dp"
+            android:layout_height="wrap_content"
+            android:text="Foto de perfil"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView44"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:textColor="@color/colorText" />
+
+        <ImageView
+            android:id="@+id/foto_usuario_perfil"
+            android:layout_width="299dp"
+            android:layout_height="299dp"
+            app:srcCompat="@drawable/logo2" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:textColor="@color/colorText" />
+
+        <Button
+            android:id="@+id/btnCamaraPerfil"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_camera"
+            android:contextClickable="false"
+            android:ellipsize="start"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="match_parent"
+            android:layout_height="31dp"
+            android:textColor="@color/colorText" />
+
+        <Button
+            android:id="@+id/btnGuardarCambios"
+            android:layout_width="299dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bordes_redondos"
+            android:contextClickable="false"
+            android:ellipsize="start"
+            android:text="Guardar cambios"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold" />
+    </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
