@@ -16,25 +16,9 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView43"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorText" />
-
-        <TextView
-            android:layout_width="301dp"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="Perfil"
-            android:textAlignment="textStart"
-            android:textColor="@color/colorText"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="0"
             android:textColor="@color/colorText" />
 

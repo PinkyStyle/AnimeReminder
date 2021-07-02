@@ -19,6 +19,7 @@ import android.provider.MediaStore;
 import android.text.Html;
 import android.text.InputType;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -64,7 +65,9 @@ public class PerfilActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Perfil Usuario");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         btnCamaraPerfil = findViewById(R.id.btnCamaraPerfil);
         btnGuardarCambios = findViewById(R.id.btnGuardarCambios);
         correo_usuario_perfil = findViewById(R.id.correo_usuario_perfil);
@@ -138,6 +141,12 @@ public class PerfilActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return false;
     }
 
     private void modificarUsuario(String contraseña){
