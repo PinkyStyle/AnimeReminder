@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.app.DatePickerDialog;
@@ -73,6 +74,8 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView imagen;
     private TextView all;
     private ListView comentarios;
+
+    private ImageButton enviar;
     //private TextInputLayout comentario_usuario;
 
     private FusedLocationProviderClient mFusedLocationClient;
@@ -98,6 +101,7 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
         this.all = findViewById(R.id.all_anime_foro);
         this.comentarios = findViewById(R.id.comentarios_foro);
         //this.comentario_usuario = findViewById(R.id.comentario_usuario);
+        this.enviar = findViewById(R.id.enviar_comentario);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
