@@ -26,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.animereminder.controllers.AnimeController;
+import com.example.animereminder.controllers.ForoController;
 import com.example.animereminder.model.Anime;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -183,7 +184,8 @@ public class AgregarActivity extends AppCompatActivity {
                             // ...
                         }
                     });
-
+                    ForoController foroController = new ForoController();
+                    foroController.crearForo(anime.getId());
                     finish();
                 } catch (Exception e) {
                     e.printStackTrace();
