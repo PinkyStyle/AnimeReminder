@@ -128,6 +128,7 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
                 String mensaje = comentario_usuario.getText().toString();
                 ForoController foroController = new ForoController();
                 foroController.crearMensaje(idAnime, mensaje);
+                comentario_usuario.setText("");
             }
         });
 

@@ -27,10 +27,12 @@
 
                     <TextView
                         android:id="@+id/titulo_foro"
-                        android:layout_width="match_parent"
+                        android:layout_width="415dp"
                         android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
                         android:layout_weight="1"
                         android:text="Titulo"
+                        android:textAlignment="textStart"
                         android:textSize="24sp" />
                 </LinearLayout>
 
@@ -67,6 +69,7 @@
                                     android:id="@+id/descripcion_foro"
                                     android:layout_width="match_parent"
                                     android:layout_height="206dp"
+                                    android:layout_gravity="center_horizontal|center_vertical"
                                     android:layout_marginBottom="15dp"
                                     android:text="TextView" />
 
