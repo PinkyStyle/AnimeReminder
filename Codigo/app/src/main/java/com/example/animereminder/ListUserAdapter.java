@@ -127,6 +127,9 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
                 case R.id.btnAnimeForo:
                     System.out.println("foro");
                     Intent intent = new Intent(context, ForoActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("id",id);
+                    intent.putExtras(b);
                     context.startActivity(intent);
                     break;
                 case R.id.all_anime:
