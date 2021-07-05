@@ -45,6 +45,8 @@ import com.google.firebase.storage.StorageReference;
 import android.os.Vibrator;
 import android.widget.Toast;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.ByteArrayOutputStream;
@@ -139,15 +141,16 @@ public class ListUserMiListaAdapter extends RecyclerView.Adapter<ListUserMiLista
                                         File dirImages = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
                                         File myPath = new File(dirImages, id + ".jpg");
                                         FileOutputStream fos = null;
-                                        try{
+                                        try {
                                             fos = new FileOutputStream(myPath);
                                             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                                             fos.flush();
-                                        }catch (FileNotFoundException ex){
+                                        } catch (FileNotFoundException ex) {
                                             ex.printStackTrace();
-                                        }catch (IOException ex){
+                                        } catch (IOException ex) {
                                             ex.printStackTrace();
                                         }
+
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -157,24 +160,33 @@ public class ListUserMiListaAdapter extends RecyclerView.Adapter<ListUserMiLista
                                     }
                                 });
                     } else {
+
                         File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), id + ".jpg");
-                        BitmapFactory.Options options = new BitmapFactory.Options();
-                        options.inScaled = false;
-                        Bitmap bmp = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-                        if (bmp != null) {
-                            imagen.setImageBitmap(bmp);
-                            bmp = null;
+                        if(file.exists()) {
+                            BitmapFactory.Options options = new BitmapFactory.Options();
+                            options.inScaled = false;
+                            Bitmap bmp = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+                            if (bmp != null) {
+                                imagen.setImageBitmap(bmp);
+                                bmp = null;
+                            }
+                            file = null;
                         }
-                        file = null;
                     }
                 }
 
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
                 }
+
+                public void onFailure(@NonNull Exception exception) {
+                    // File not found
+                }
             });
+
         }
+
 
         void setOnClickListeners() {
             btnAnimeForo.setOnClickListener(this);

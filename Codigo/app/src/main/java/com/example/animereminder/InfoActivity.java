@@ -2,13 +2,16 @@ package com.example.animereminder;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
@@ -33,8 +36,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -42,6 +47,9 @@ import com.google.firebase.storage.UploadTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -100,16 +108,69 @@ public class InfoActivity extends AppCompatActivity{
                     hora.setText(anime.getHorarioDeEmision());
                     estudio.setText(anime.getEstudioDeAnimacion());
                     autor.setText(anime.getAutor());
-                    StorageReference storageRef = storage.getReference();
-                    storageRef.child("anime/"+anime.getId()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    String id = anime.getId();
+
+                    DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+                    connectedRef.addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onSuccess(Uri uri) {
-                            Glide.with(InfoActivity.this).load(uri).into(imagen);
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            boolean connected = snapshot.getValue(Boolean.class);
+                            if (connected) {
+                                long ONE_MEGABYTE = 1024 * 1024;
+                                StorageReference storageRef = storage.getReference();
+                                storageRef.child("anime/"+id).getBytes(ONE_MEGABYTE)
+                                        .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                            @Override
+                                            public void onSuccess(byte[] bytes) {
+                                                BitmapFactory.Options options = new BitmapFactory.Options();
+                                                options.inScaled = false;
+                                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+                                                imagen.setImageBitmap(bitmap);
+                                                ContextWrapper cw = new ContextWrapper(getBaseContext());
+                                                File dirImages = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                                                File myPath = new File(dirImages, id + ".jpg");
+                                                FileOutputStream fos = null;
+                                                try {
+                                                    fos = new FileOutputStream(myPath);
+                                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                                                    fos.flush();
+                                                } catch (FileNotFoundException ex) {
+                                                    ex.printStackTrace();
+                                                } catch (IOException ex) {
+                                                    ex.printStackTrace();
+                                                }
+
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+
+                                            }
+                                        });
+                            } else {
+
+                                File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), id + ".jpg");
+                                if(file.exists()) {
+                                    BitmapFactory.Options options = new BitmapFactory.Options();
+                                    options.inScaled = false;
+                                    Bitmap bmp = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+                                    if (bmp != null) {
+                                        imagen.setImageBitmap(bmp);
+                                        bmp = null;
+                                    }
+                                    file = null;
+                                }
+                            }
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
+
                         @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d("Error", e.toString());
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                        }
+
+                        public void onFailure(@NonNull Exception exception) {
+                            // File not found
                         }
                     });
 
