@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -38,14 +39,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class PerfilActivity extends AppCompatActivity {
@@ -83,19 +88,70 @@ public class PerfilActivity extends AppCompatActivity {
                     Usuario usuario = task.getResult().getValue(Usuario.class);
                     nombre_usuario_perfil.setText(usuario.getNickname());
                     correo_usuario_perfil.setText(usuario.getCorreo());
-                    StorageReference storageRef = storage.getReference();
-                    storageRef.child("usuario/" + user.getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+
+                    DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+                    connectedRef.addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onSuccess(Uri uri) {
-                            Glide.with(PerfilActivity.this).load(uri).into(foto_usuario_perfil);
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            boolean connected = snapshot.getValue(Boolean.class);
+                            if (connected) {
+                                long ONE_MEGABYTE = 1024 * 1024;
+                                StorageReference storageRef = storage.getReference();
+                                storageRef.child("usuario/" + user.getUid()).getBytes(ONE_MEGABYTE)
+                                        .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                            @Override
+                                            public void onSuccess(byte[] bytes) {
+                                                BitmapFactory.Options options = new BitmapFactory.Options();
+                                                options.inScaled = false;
+                                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+                                                foto_usuario_perfil.setImageBitmap(bitmap);
+                                                ContextWrapper cw = new ContextWrapper(getBaseContext());
+                                                File dirImages = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                                                File myPath = new File(dirImages, user.getUid() + ".jpg");
+                                                FileOutputStream fos = null;
+                                                try {
+                                                    fos = new FileOutputStream(myPath);
+                                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                                                    fos.flush();
+                                                } catch (FileNotFoundException ex) {
+                                                    ex.printStackTrace();
+                                                } catch (IOException ex) {
+                                                    ex.printStackTrace();
+                                                }
+
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+
+                                            }
+                                        });
+                            } else {
+
+                                File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), user.getUid() + ".jpg");
+                                if(file.exists()) {
+                                    BitmapFactory.Options options = new BitmapFactory.Options();
+                                    options.inScaled = false;
+                                    Bitmap bmp = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+                                    if (bmp != null) {
+                                        foto_usuario_perfil.setImageBitmap(bmp);
+                                        bmp = null;
+                                    }
+                                    file = null;
+                                }
+                            }
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
+
                         @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d("Error", e.toString());
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                        }
+
+                        public void onFailure(@NonNull Exception exception) {
+                            // File not found
                         }
                     });
-
                 }
                 else{
                     System.out.println("No se obtuvieron los datos");
