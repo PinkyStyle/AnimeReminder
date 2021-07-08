@@ -45,6 +45,7 @@ import com.example.animereminder.controllers.AnimeController;
 import com.example.animereminder.controllers.ForoController;
 import com.example.animereminder.model.Anime;
 import com.example.animereminder.model.Mensaje;
+import com.example.animereminder.model.Usuario;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -53,6 +54,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -97,6 +100,7 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
 
     String id;
     String idAnime;
+    String nombre_usuario;
 
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -128,10 +132,22 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(ForoActivity.this, "No se encontró el foro", Toast.LENGTH_SHORT).show();
             finish();
         }
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        databaseReference.child("Usuario").child(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    Usuario usuario = task.getResult().getValue(Usuario.class);
+                    nombre_usuario = usuario.getNickname();
+                }
+            }
+        });
+
         this.enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mensaje = comentario_usuario.getText().toString();
+                String mensaje = nombre_usuario + ": "  + comentario_usuario.getText().toString();
                 ForoController foroController = new ForoController();
                 foroController.crearMensaje(idAnime, mensaje);
                 comentario_usuario.setText("");
@@ -256,8 +272,6 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
                             if (location != null) {
                                 Double latitud = location.getLatitude();
                                 Double longitud = location.getLongitude();
-
-
                             }
                         }
                     });
