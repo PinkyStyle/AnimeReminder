@@ -24,8 +24,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.animereminder.controllers.AnimeController;
+import com.example.animereminder.model.Usuario;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,28 +48,27 @@ import android.os.Vibrator;
 
 import org.jetbrains.annotations.NotNull;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
-    private List<ListElement> mData;
+public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.ViewHolder> {
+    private List<ComentarioElement> mData;
     private LayoutInflater mInflater;
     private Context context;
 
-    public ListAdapter(List<ListElement> itemlist, Context context) {
-        this.mData = itemlist;
+    public ComentarioAdapter(List<ComentarioElement> mData, Context context) {
+        this.mData = mData;
         this.context = context;
-        this.mInflater = LayoutInflater.from(context);
     }
 
-    @Override
-    public ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_list, null);
-        return new ListAdapter.ViewHolder(view);
-    }
 
     @Override
-    public void onBindViewHolder(final ListAdapter.ViewHolder holder, final int position) {
+    public ComentarioAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.item_comentario, null);
+        return new ComentarioAdapter.ViewHolder(view);
+
+    }
+    @Override
+    public void onBindViewHolder(final ComentarioAdapter.ViewHolder holder, final int position) {
         holder.bindData(mData.get(position));
         //eventos
-        holder.setOnClickListeners();
     }
 
     @Override
@@ -72,38 +76,31 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         return mData.size();
     }
 
-    public void setItems(List<ListElement> items) {
+    public void setItems(List<ComentarioElement> items) {
         mData = items;
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView titulo;
-        TextView description;
-        String id;
-        Button btnAnimeForo;
-        TextView all_anime;
-        ImageView edit_anime;
-        ImageView delete_anime;
+        TextView nombre;
+        TextView texto;
         Context context;
         ImageView imagen;
+        String id;
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
+
         ViewHolder(View itemView) {
             super(itemView);
-            imagen = itemView.findViewById(R.id.img_anime);
+            imagen = itemView.findViewById(R.id.Foto_Perfil_Foro);
             context = itemView.getContext();
-            titulo = itemView.findViewById(R.id.titulo);
-            description = itemView.findViewById(R.id.description);
-            btnAnimeForo = itemView.findViewById(R.id.btnAnimeForo);
-            all_anime = itemView.findViewById(R.id.all_anime);
-            edit_anime = itemView.findViewById(R.id.edit_anime);
-            delete_anime = itemView.findViewById(R.id.delete_anime);
+            nombre = itemView.findViewById(R.id.nombre_comentario);
+            texto = itemView.findViewById(R.id.texto_comentario);
         }
-        void bindData(final ListElement item){
-            titulo.setText(item.getTitulo());
-            description.setText(item.getDescription());
-            id = item.getId();
+
+        void bindData(final ComentarioElement item){
+            nombre.setText(item.getNombre());
+            texto.setText(item.getTexto());
+
 
             DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
             connectedRef.addValueEventListener(new ValueEventListener() {
@@ -113,7 +110,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                     if (connected) {
                         long ONE_MEGABYTE = 1024 * 1024;
                         StorageReference storageRef = storage.getReference();
-                        storageRef.child("anime/"+id).getBytes(ONE_MEGABYTE)
+                        storageRef.child("Usuario/"+id).getBytes(ONE_MEGABYTE)
                                 .addOnSuccessListener(new OnSuccessListener<byte[]>() {
                                     @Override
                                     public void onSuccess(byte[] bytes) {
@@ -160,73 +157,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                 }
 
                 @Override
-                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-
-                public void onFailure(@NonNull Exception exception) {
-                    // File not found
                 }
             });
         }
 
-        void setOnClickListeners() {
-            btnAnimeForo.setOnClickListener(this);
-            all_anime.setOnClickListener(this);
-            edit_anime.setOnClickListener(this);
-            delete_anime.setOnClickListener(this);
-        }
-
         @Override
         public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btnAnimeForo:
-                    System.out.println("foro");
-                    Intent intent = new Intent(context, ForoActivity.class);
-                    Bundle c = new Bundle();
-                    c.putString("id",id);
-                    intent.putExtras(c);
-                    context.startActivity(intent);
-                    break;
-                case R.id.all_anime:
-                    Intent intent2 = new Intent(context, InfoActivity.class);
-                    Bundle a = new Bundle();
-                    a.putString("id",id);
-                    intent2.putExtras(a);
-                    context.startActivity(intent2);
-                    break;
-                case R.id.edit_anime:
-                    Intent intent3 = new Intent(context, EditarActivity.class);
-                    Bundle b = new Bundle();
-                    b.putString("id",id);
-                    intent3.putExtras(b);
-                    context.startActivity(intent3);
-                    break;
-                case R.id.delete_anime:
-                    AlertDialog.Builder alerta = new AlertDialog.Builder(new ContextThemeWrapper(ListAdapter.this.context,R.style.AlertDialog));
-                    alerta.setMessage("Estas seguro que deseas eliminar el anime "+titulo.getText()+" ?");
-                    alerta.setCancelable(false);
-                    alerta.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            AnimeController.eliminarAnime(id);
-                            Vibrator v = (Vibrator) ListAdapter.this.context.getSystemService(Context.VIBRATOR_SERVICE);
-                            v.vibrate(400);
-                            dialog.cancel();
-                        }
-                    });
-                    alerta.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //no quiere eliminarlo
-                            dialog.cancel();
-                        }
-                    });
-                    AlertDialog titulo = alerta.create();
-                    titulo.setTitle("Eliminar Anime");
-                    titulo.show();
-                    break;
-            }
+
         }
     }
 }
