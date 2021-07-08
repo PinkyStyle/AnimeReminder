@@ -39,12 +39,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.animereminder.controllers.AnimeController;
 import com.example.animereminder.controllers.ForoController;
 import com.example.animereminder.model.Anime;
 import com.example.animereminder.model.Mensaje;
+import com.example.animereminder.model.Usuario;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -53,6 +56,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -74,6 +79,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -86,7 +92,9 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
     private TextView descripcion;
     private ImageView imagen;
     private TextView all;
-    private ListView comentarios;
+    private RecyclerView comentarios;
+
+    private List<ComentarioElement> elementos;
 
     private ImageButton enviar;
     private TextInputEditText comentario_usuario;
@@ -97,6 +105,7 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
 
     String id;
     String idAnime;
+    String nombre_usuario;
 
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -113,12 +122,11 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
         this.descripcion = findViewById(R.id.descripcion_foro);
         this.imagen = findViewById(R.id.imagen_anime_foro);
         this.all = findViewById(R.id.all_anime_foro);
-        this.comentarios = findViewById(R.id.comentarios_foro);
         this.comentario_usuario = findViewById(R.id.comentario_usuario);
         this.enviar = findViewById(R.id.enviar_comentario);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
+        this.init();
         Bundle b = getIntent().getExtras();
         idAnime = "";
         if(b != null){
@@ -128,12 +136,25 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(ForoActivity.this, "No se encontró el foro", Toast.LENGTH_SHORT).show();
             finish();
         }
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        databaseReference.child("Usuario").child(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    Usuario usuario = task.getResult().getValue(Usuario.class);
+                    nombre_usuario = usuario.getNickname();
+                }
+            }
+        });
+
         this.enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mensaje = comentario_usuario.getText().toString();
+                String mensaje = nombre_usuario + ": "  + comentario_usuario.getText().toString();
                 ForoController foroController = new ForoController();
                 foroController.crearMensaje(idAnime, mensaje);
+                comentario_usuario.setText("");
             }
         });
 
@@ -222,7 +243,7 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
                     String mensaje = objSnaptshot.getValue().toString();
                     mensajes.add(mensaje);
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(ForoActivity.this, android.R.layout.simple_list_item_1, mensajes);
-                    comentarios.setAdapter(adapter);
+                    //comentarios.setAdapter(adapter);
                 }
             }
 
@@ -255,8 +276,6 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
                             if (location != null) {
                                 Double latitud = location.getLatitude();
                                 Double longitud = location.getLongitude();
-
-
                             }
                         }
                     });
@@ -305,6 +324,21 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
         }
+    }
+
+    public void init() {
+
+        this.elementos = new ArrayList<>();
+        elementos.add(new ComentarioElement("persona1","este es un ejemplo de mensaje1"));
+        elementos.add(new ComentarioElement("persona2", "este es un ejemplo de mensaje2"));
+        elementos.add(new ComentarioElement("persona3", "este es un ejemplo de mensaje3"));
+        elementos.add(new ComentarioElement("persona4", "este es un ejemplo de mensaje4"));
+        elementos.add(new ComentarioElement("persona5", "este es un ejemplo de mensaje5"));
+        ComentarioAdapter comentarioAdapter = new ComentarioAdapter(elementos, this);
+        this.comentarios = findViewById(R.id.comentarios_Foro);
+        this.comentarios.setHasFixedSize(true);
+        this.comentarios.setLayoutManager(new LinearLayoutManager(this));
+        this.comentarios.setAdapter(comentarioAdapter);
     }
 }
 

@@ -1,88 +1,75 @@
 package com.example.animereminder;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import androidx.core.content.FileProvider;
-import android.os.Vibrator;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.content.ContextWrapper;
-
-
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.animereminder.controllers.AnimeController;
-import com.example.animereminder.controllers.UsuarioController;
+import com.example.animereminder.model.Usuario;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import android.os.Vibrator;
-import android.widget.Toast;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import android.os.Vibrator;
 
+import org.jetbrains.annotations.NotNull;
 
-public class ListUserMiListaAdapter extends RecyclerView.Adapter<ListUserMiListaAdapter.ViewHolder> {
-    private List<ListElement> mData;
+public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.ViewHolder> {
+    private List<ComentarioElement> mData;
     private LayoutInflater mInflater;
     private Context context;
 
-    public ListUserMiListaAdapter(List<ListElement> itemlist, Context context) {
-        this.mData = itemlist;
+    public ComentarioAdapter(List<ComentarioElement> mData, Context context) {
+        this.mData = mData;
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
     }
 
-    @Override
-    public ListUserMiListaAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_list_user, null);
-        return new ListUserMiListaAdapter.ViewHolder(view);
-    }
 
     @Override
-    public void onBindViewHolder(final ListUserMiListaAdapter.ViewHolder holder, final int position) {
-        try {
-            holder.bindData(mData.get(position));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public ComentarioAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.item_comentario, null);
+        return new ComentarioAdapter.ViewHolder(view);
+
+    }
+    @Override
+    public void onBindViewHolder(final ComentarioAdapter.ViewHolder holder, final int position) {
+        holder.bindData(mData.get(position));
         //eventos
-        holder.setOnClickListeners();
     }
 
     @Override
@@ -90,46 +77,42 @@ public class ListUserMiListaAdapter extends RecyclerView.Adapter<ListUserMiLista
         return mData.size();
     }
 
-    public void setItems(List<ListElement> items) {
+    public void setItems(List<ComentarioElement> items) {
         mData = items;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView titulo;
-        TextView description;
-        String id;
-        Button btnAnimeForo;
-        TextView all_anime;
-        CheckBox checkListUser;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView nombre;
+        TextView texto;
         Context context;
         ImageView imagen;
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
+        String id;
+        //FirebaseStorage storage = FirebaseStorage.getInstance();
+        //StorageReference storageRef = storage.getReference();
+
         ViewHolder(View itemView) {
             super(itemView);
-            context = itemView.getContext();
-            titulo = itemView.findViewById(R.id.titulo);
-            description = itemView.findViewById(R.id.description);
-            btnAnimeForo = itemView.findViewById(R.id.btnAnimeForo);
-            all_anime = itemView.findViewById(R.id.all_anime);
-            checkListUser = itemView.findViewById(R.id.checkListUser);
-            imagen = itemView.findViewById(R.id.img_anime);
+            imagen = itemView.findViewById(R.id.Foto_Perfil_Foro);
+            //context = itemView.getContext();
+            nombre = itemView.findViewById(R.id.nombre_comentario);
+            texto = itemView.findViewById(R.id.texto_comentario);
         }
-        void bindData(final ListElement item) throws IOException {
-            titulo.setText(item.getTitulo());
-            description.setText(item.getDescription());
-            id = item.getId();
-            checkListUser.setChecked(true);
 
-            DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
-            connectedRef.addValueEventListener(new ValueEventListener() {
+        void bindData(final ComentarioElement item){
+            nombre.setText(item.getNombre());
+            texto.setText(item.getTexto());
+
+
+
+            //DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+            /*connectedRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     boolean connected = snapshot.getValue(Boolean.class);
                     if (connected) {
                         long ONE_MEGABYTE = 1024 * 1024;
                         StorageReference storageRef = storage.getReference();
-                        storageRef.child("anime/"+id).getBytes(ONE_MEGABYTE)
+                        storageRef.child("Usuario/"+id).getBytes(ONE_MEGABYTE)
                                 .addOnSuccessListener(new OnSuccessListener<byte[]>() {
                                     @Override
                                     public void onSuccess(byte[] bytes) {
@@ -176,48 +159,11 @@ public class ListUserMiListaAdapter extends RecyclerView.Adapter<ListUserMiLista
                 }
 
                 @Override
-                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                public void onCancelled(@NonNull DatabaseError error) {
 
                 }
-
-                public void onFailure(@NonNull Exception exception) {
-                    // File not found
-                }
-            });
-
+            });*/
         }
 
-
-        void setOnClickListeners() {
-            btnAnimeForo.setOnClickListener(this);
-            all_anime.setOnClickListener(this);
-            checkListUser.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btnAnimeForo:
-                    Intent intent = new Intent(context, ForoActivity.class);
-                    Bundle b = new Bundle();
-                    b.putString("id",id);
-                    intent.putExtras(b);
-                    context.startActivity(intent);
-                    break;
-                case R.id.all_anime:
-                    Intent intent2 = new Intent(context, InfoActivity.class);
-                    Bundle a = new Bundle();
-                    a.putString("id",id);
-                    intent2.putExtras(a);
-                    context.startActivity(intent2);
-                    break;
-                case R.id.checkListUser:
-                    UsuarioController.eliminarAnimeMiLista(id);
-                    Vibrator vi = (Vibrator) ListUserMiListaAdapter.this.context.getSystemService(Context.VIBRATOR_SERVICE);
-                    vi.vibrate(400);
-                    break;
-            }
-        }
     }
-
 }
