@@ -182,6 +182,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             switch (v.getId()) {
                 case R.id.btnAnimeForo:
                     Intent intent = new Intent(context, ForoActivity.class);
+                    Bundle c = new Bundle();
+                    c.putString("id",id);
+                    c.putString("admin", "admin");
+                    intent.putExtras(c);
                     context.startActivity(intent);
                     break;
                 case R.id.all_anime:

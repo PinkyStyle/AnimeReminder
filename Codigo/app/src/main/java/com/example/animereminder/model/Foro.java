@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Foro {
-    private List<String> mensajes;
+    private List<Mensaje> mensajes;
 
     public Foro() {
         this.mensajes = new ArrayList<>();
     }
 
 
-    public List<String> getMensajes() {
+    public List<Mensaje> getMensajes() {
         return mensajes;
     }
 
-    public void setMensajes(List<String> mensajes) {
+    public void setMensajes(List<Mensaje> mensajes) {
         this.mensajes = mensajes;
     }
 }

@@ -6,12 +6,14 @@ import org.jetbrains.annotations.NotNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.exifinterface.media.ExifInterface;
 
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -49,9 +51,11 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 public class PerfilActivity extends AppCompatActivity {
     Button btnCamaraPerfil;
@@ -278,7 +282,41 @@ public class PerfilActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
             //Bundle extras = data.getExtras();
+            OutputStream outStream = null;
+            File file = new File(rutaImagen);
+            if (file.exists()) {
+                try {
+                    String nombreImagen = "foto_perfil_comprimida_";
+                    File directorio = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                    file = File.createTempFile(nombreImagen,".jpg", directorio);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            int m_inSampleSize = 0;
+            int m_compress = 30;
+            try {
+                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+                bmOptions.inPurgeable = true;
+                bmOptions.inSampleSize = m_inSampleSize;
+                //Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), bmOptions);
+                Bitmap bitmap = BitmapFactory.decodeFile(rutaImagen, bmOptions);
+                //Bitmap bitmap = BitmapFactory.decodeFile(file.getName());
+                outStream = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, m_compress, outStream);
+                outStream.flush();
+                outStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            //Log.d("fotocomprimida", file.getAbsolutePath());
+            rutaImagen = file.getAbsolutePath();
             Bitmap foto = BitmapFactory.decodeFile(rutaImagen);
+            if (foto.getWidth() > foto.getHeight()) {
+                Matrix matrix = new Matrix();
+                matrix.postRotate(90);
+                foto = Bitmap.createBitmap(foto , 0, 0, foto.getWidth(), foto.getHeight(), matrix, true);
+            }
             foto_usuario_perfil.setImageBitmap(foto);
         }
     }
@@ -290,4 +328,5 @@ public class PerfilActivity extends AppCompatActivity {
         rutaImagen = imagen.getAbsolutePath();
         return imagen;
     }
+
 }
