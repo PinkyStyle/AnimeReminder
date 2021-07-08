@@ -198,13 +198,17 @@ public class ListUserMiListaAdapter extends RecyclerView.Adapter<ListUserMiLista
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btnAnimeForo:
-                    Intent intent = new Intent(context, HomeActivity.class);
-                    intent.putExtra("texto","foro");
+                    Intent intent = new Intent(context, ForoActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("id",id);
+                    intent.putExtras(b);
                     context.startActivity(intent);
                     break;
                 case R.id.all_anime:
-                    Intent intent2 = new Intent(context, HomeActivity.class);
-                    intent2.putExtra("texto","info anime");
+                    Intent intent2 = new Intent(context, InfoActivity.class);
+                    Bundle a = new Bundle();
+                    a.putString("id",id);
+                    intent2.putExtras(a);
                     context.startActivity(intent2);
                     break;
                 case R.id.checkListUser:
