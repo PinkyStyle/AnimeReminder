@@ -39,6 +39,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.animereminder.controllers.AnimeController;
@@ -77,6 +79,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -89,7 +92,9 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
     private TextView descripcion;
     private ImageView imagen;
     private TextView all;
-    private ListView comentarios;
+    private RecyclerView comentarios;
+
+    private List<ComentarioElement> elementos;
 
     private ImageButton enviar;
     private TextInputEditText comentario_usuario;
@@ -117,7 +122,6 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
         this.descripcion = findViewById(R.id.descripcion_foro);
         this.imagen = findViewById(R.id.imagen_anime_foro);
         this.all = findViewById(R.id.all_anime_foro);
-        this.comentarios = findViewById(R.id.comentarios_foro);
         this.comentario_usuario = findViewById(R.id.comentario_usuario);
         this.enviar = findViewById(R.id.enviar_comentario);
 
@@ -239,7 +243,7 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
                     String mensaje = objSnaptshot.getValue().toString();
                     mensajes.add(mensaje);
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(ForoActivity.this, android.R.layout.simple_list_item_1, mensajes);
-                    comentarios.setAdapter(adapter);
+                    //comentarios.setAdapter(adapter);
                 }
             }
 
@@ -320,6 +324,14 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
         }
+    }
+
+    public void init() {
+        ComentarioAdapter comentarioAdapter = new ComentarioAdapter(elementos, this);
+        this.comentarios = findViewById(R.id.comentarios_Foro);
+        this.comentarios.setHasFixedSize(true);
+        this.comentarios.setLayoutManager(new LinearLayoutManager(this));
+        this.comentarios.setAdapter(comentarioAdapter);
     }
 }
 

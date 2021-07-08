@@ -24,8 +24,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.animereminder.controllers.AnimeController;
+import com.example.animereminder.model.Usuario;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,9 +53,8 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
     private LayoutInflater mInflater;
     private Context context;
 
-    public ComentarioAdapter(List<ComentarioElement> mData, LayoutInflater mInflater, Context context) {
+    public ComentarioAdapter(List<ComentarioElement> mData, Context context) {
         this.mData = mData;
-        this.mInflater = mInflater;
         this.context = context;
     }
 
@@ -96,7 +100,7 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
         void bindData(final ComentarioElement item){
             nombre.setText(item.getNombre());
             texto.setText(item.getTexto());
-            
+
 
             DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
             connectedRef.addValueEventListener(new ValueEventListener() {
