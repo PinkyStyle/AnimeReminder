@@ -87,7 +87,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 
-public class ForoActivity extends AppCompatActivity implements View.OnClickListener {
+public class ForoActivity extends AppCompatActivity  {
     private TextView nombre;
     private TextView descripcion;
     private ImageView imagen;
@@ -103,7 +103,7 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final int PERMISSION_REQUEST_CODE = 1;
 
-    String id;
+    String admin;
     String idAnime;
     String nombre_usuario;
 
@@ -126,11 +126,12 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
         this.enviar = findViewById(R.id.enviar_comentario);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
         Bundle b = getIntent().getExtras();
         idAnime = "";
+        admin = "";
         if(b != null){
             idAnime = b.getString("id");
+            admin = b.getString("admin");
         }
         else{
             Toast.makeText(ForoActivity.this, "No se encontró el foro", Toast.LENGTH_SHORT).show();
@@ -138,20 +139,43 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference.child("Usuario").child(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
-                if (task.isSuccessful()) {
-                    Usuario usuario = task.getResult().getValue(Usuario.class);
-                    nombre_usuario = usuario.getNickname();
+        if (admin==null){
+            databaseReference.child("Usuario").child(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        Usuario usuario = task.getResult().getValue(Usuario.class);
+                        nombre_usuario = usuario.getNickname();
+                    }
                 }
+            });
+        }
+
+        this.all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ForoActivity.this, InfoActivity.class);
+                Bundle a = new Bundle();
+                a.putString("id",idAnime);
+                intent.putExtras(a);
+                startActivity(intent);
             }
         });
+
 
         this.enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mensaje = nombre_usuario + ": "  + comentario_usuario.getText().toString();
+                Mensaje mensaje = new Mensaje();
+                if(nombre_usuario!=null){
+                    mensaje.setUsuario(nombre_usuario);
+                }
+                else{
+                    mensaje.setUsuario("ADMIN");
+                }
+
+
+                mensaje.setMensaje(comentario_usuario.getText().toString());
                 ForoController foroController = new ForoController();
                 foroController.crearMensaje(idAnime, mensaje);
                 comentario_usuario.setText("");
@@ -238,13 +262,17 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
         databaseReference.child("Foro").child(idAnime).child("mensajes").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                ArrayList<String> mensajes = new ArrayList<>();
+                ArrayList<ComentarioElement> elementos = new ArrayList<>();
                 for (DataSnapshot objSnaptshot : snapshot.getChildren()){
-                    String mensaje = objSnaptshot.getValue().toString();
-                    mensajes.add(mensaje);
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(ForoActivity.this, android.R.layout.simple_list_item_1, mensajes);
+                    Mensaje mensaje = objSnaptshot.getValue(Mensaje.class);
+                    elementos.add(new ComentarioElement(mensaje.getUsuario(), mensaje.getMensaje()));
                     //comentarios.setAdapter(adapter);
                 }
+                ComentarioAdapter comentarioAdapter = new ComentarioAdapter(elementos, ForoActivity.this);
+                comentarios = findViewById(R.id.comentarios_Foro);
+                comentarios.setHasFixedSize(true);
+                comentarios.setLayoutManager(new LinearLayoutManager(ForoActivity.this));
+                comentarios.setAdapter(comentarioAdapter);
             }
 
             @Override
@@ -313,20 +341,15 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.all_anime_foro:
-                Intent intent = new Intent(ForoActivity.this, InfoActivity.class);
-                Bundle a = new Bundle();
-                a.putString("id",id);
-                intent.putExtras(a);
-                startActivity(intent);
-                break;
-        }
-    }
 
     public void init() {
+
+        this.elementos = new ArrayList<>();
+        elementos.add(new ComentarioElement("persona1","este es un ejemplo de mensaje1"));
+        elementos.add(new ComentarioElement("persona2", "este es un ejemplo de mensaje2"));
+        elementos.add(new ComentarioElement("persona3", "este es un ejemplo de mensaje3"));
+        elementos.add(new ComentarioElement("persona4", "este es un ejemplo de mensaje4"));
+        elementos.add(new ComentarioElement("persona5", "este es un ejemplo de mensaje5"));
         ComentarioAdapter comentarioAdapter = new ComentarioAdapter(elementos, this);
         this.comentarios = findViewById(R.id.comentarios_Foro);
         this.comentarios.setHasFixedSize(true);

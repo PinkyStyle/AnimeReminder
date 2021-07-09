@@ -56,6 +56,7 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
     public ComentarioAdapter(List<ComentarioElement> mData, Context context) {
         this.mData = mData;
         this.context = context;
+        this.mInflater = LayoutInflater.from(context);
     }
 
 
@@ -80,19 +81,19 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
         mData = items;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView nombre;
         TextView texto;
         Context context;
         ImageView imagen;
         String id;
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
+        //FirebaseStorage storage = FirebaseStorage.getInstance();
+        //StorageReference storageRef = storage.getReference();
 
         ViewHolder(View itemView) {
             super(itemView);
             imagen = itemView.findViewById(R.id.Foto_Perfil_Foro);
-            context = itemView.getContext();
+            //context = itemView.getContext();
             nombre = itemView.findViewById(R.id.nombre_comentario);
             texto = itemView.findViewById(R.id.texto_comentario);
         }
@@ -102,8 +103,9 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
             texto.setText(item.getTexto());
 
 
-            DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
-            connectedRef.addValueEventListener(new ValueEventListener() {
+
+            //DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+            /*connectedRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     boolean connected = snapshot.getValue(Boolean.class);
@@ -160,12 +162,8 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
-            });
+            });*/
         }
 
-        @Override
-        public void onClick(View v) {
-
-        }
     }
 }

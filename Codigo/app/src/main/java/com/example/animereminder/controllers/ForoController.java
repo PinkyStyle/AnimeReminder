@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.animereminder.model.Foro;
+import com.example.animereminder.model.Mensaje;
 import com.example.animereminder.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,7 +23,7 @@ public class ForoController {
         databaseReference.child("Foro").child(idAnime).setValue(new Foro());
     }
 
-    public void crearMensaje(String idAnime, String mensaje){
+    public void crearMensaje(String idAnime, Mensaje mensaje){
         databaseReference.child("Foro").child(idAnime).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {

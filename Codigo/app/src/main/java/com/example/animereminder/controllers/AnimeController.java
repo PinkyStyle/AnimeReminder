@@ -60,6 +60,22 @@ public class AnimeController {
 
 
     public void listarAnime(View vista, String opcion) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        miLista = new ArrayList<>();
+        databaseReference.child("Usuario").child(user.getUid()).child("listaAnime").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot objSnaptshot : snapshot.getChildren()){
+                    String idAnime = objSnaptshot.getValue().toString();
+                    miLista.add(idAnime);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         databaseReference.child("Anime").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -72,20 +88,22 @@ public class AnimeController {
                     if(!anime.isBorrado()){
                         listaAnime.add(anime);
                         boolean checked = false;
-                        if(miLista!=null){
-                            for (String id : miLista){
-                                if (anime.getId().equals(id)){
-                                    checked = true;
-                                    break;
-                                }
-                            }
-                        }
 
                         elements.add(new ListElement(anime.getNombre(),anime.getDescripcion(), anime.getId(), checked));
                     }
                     //arrayAdapterAnime = new ArrayAdapter<Anime>(AnimeActivity.this, android.R.layout.simple_list_item_1, listaAnime);
                     //La linea de abajo permite enviar el listado al front (SETEA LA VARIABLE LLENANDOLA CON DATOS)
                     //listaVistaAnime.setAdapter(arrayAdapterAnime);
+                }
+                for (ListElement elemento : elements){
+                    if(miLista!=null){
+                        for (String id : miLista){
+                            if (elemento.getId().equals(id)){
+                                elemento.setChecked(true);
+                                break;
+                            }
+                        }
+                    }
                 }
                 switch (opcion){
                     case "a":
@@ -111,6 +129,7 @@ public class AnimeController {
                         break;
                 }
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
