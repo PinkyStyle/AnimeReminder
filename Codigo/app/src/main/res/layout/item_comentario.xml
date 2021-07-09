@@ -2,18 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="191dp"
-        android:background="#FFFFFF"
+        android:layout_height="wrap_content"
+        android:background="@drawable/borde_gris_redondeado"
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="397dp"
+            android:layout_width="398dp"
             android:layout_height="38dp"
             android:layout_gravity="center"
             android:background="#EFEFEF"
@@ -45,14 +47,14 @@
 
         <LinearLayout
             android:layout_width="399dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="398dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -65,7 +67,7 @@
                 <TextView
                     android:id="@+id/texto_comentario"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:text="TextView"
@@ -79,6 +81,12 @@
                     android:layout_gravity="center"
                     android:layout_weight="1" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView43"
+                android:layout_width="43dp"
+                android:layout_height="10dp"
+                android:layout_weight="1" />
 
         </LinearLayout>
     </LinearLayout>
