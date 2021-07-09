@@ -108,7 +108,7 @@ public class TempUserFragment extends Fragment {
         }
         float a = (float) actionBarHeight;
         int p = (int) convertPxToDp(getContext(),a);
-        cs.setMinHeight(pantalla[1]-dpToPx(80+50+p+24));
+        cs.setMinHeight(pantalla[1]-dpToPx(80+p+24));
         return vista;
     }
 }

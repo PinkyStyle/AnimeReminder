@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -72,12 +71,15 @@ public class NavigationActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
         if (id == R.id.cerrar_sesion){
-            Toast.makeText(this,"Cerrar sesión",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"Cerrar sesión",Toast.LENGTH_SHORT).show();
             FirebaseAuth.getInstance().signOut();
             Intent i = new Intent(NavigationActivity.this, MainActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
             finish();
+        } else if (id == R.id.perfil) {
+            Intent i = new Intent(NavigationActivity.this, PerfilActivity.class);
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }

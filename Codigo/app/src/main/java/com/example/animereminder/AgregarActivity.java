@@ -26,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.animereminder.controllers.AnimeController;
+import com.example.animereminder.controllers.ForoController;
 import com.example.animereminder.model.Anime;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -89,8 +90,10 @@ public class AgregarActivity extends AppCompatActivity {
         this.mBotonAgregar = findViewById(R.id.btnagregar);
         this.imagen = findViewById(R.id.Imagen);
 
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
-        getSupportActionBar().setTitle(Html.fromHtml("<font color='#35424a'>Agregar Anime</font>"));
+        //getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+        getSupportActionBar().setTitle("Agregar Anime");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
@@ -181,7 +184,8 @@ public class AgregarActivity extends AppCompatActivity {
                             // ...
                         }
                     });
-
+                    ForoController foroController = new ForoController();
+                    foroController.crearForo(anime.getId());
                     finish();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -279,6 +283,12 @@ public class AgregarActivity extends AppCompatActivity {
                 Glide.with(AgregarActivity.this).load(imageUri).into(imagen);
             }
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return false;
     }
 
 

@@ -124,6 +124,11 @@ public class EditarActivity extends AppCompatActivity {
                         public void onSuccess(Uri uri) {
                             Glide.with(EditarActivity.this).load(uri).into(imagen);
                         }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("Error", e.toString());
+                        }
                     });
 
                 }
@@ -133,8 +138,9 @@ public class EditarActivity extends AppCompatActivity {
             }
         });
 
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
-        getSupportActionBar().setTitle(Html.fromHtml("<font color='#35424a'>Editar Anime</font>"));
+        //getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+        getSupportActionBar().setTitle("Editar Anime");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         imagen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -318,6 +324,12 @@ public class EditarActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return false;
     }
 
 }
