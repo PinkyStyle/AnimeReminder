@@ -236,7 +236,7 @@ public class PerfilActivity extends AppCompatActivity {
             foto_usuario_perfil.buildDrawingCache();
             Bitmap bitmap = ((BitmapDrawable) foto_usuario_perfil.getDrawable()).getBitmap();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
             byte[] data = baos.toByteArray();
 
             UploadTask uploadTask = refImage.putBytes(data);
