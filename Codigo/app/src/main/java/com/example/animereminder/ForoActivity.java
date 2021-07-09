@@ -87,7 +87,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 
-public class ForoActivity extends AppCompatActivity implements View.OnClickListener {
+public class ForoActivity extends AppCompatActivity  {
     private TextView nombre;
     private TextView descripcion;
     private ImageView imagen;
@@ -104,7 +104,6 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
     private static final int PERMISSION_REQUEST_CODE = 1;
 
     String admin;
-    String id;
     String idAnime;
     String nombre_usuario;
 
@@ -151,6 +150,17 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
         }
+
+        this.all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ForoActivity.this, InfoActivity.class);
+                Bundle a = new Bundle();
+                a.putString("id",idAnime);
+                intent.putExtras(a);
+                startActivity(intent);
+            }
+        });
 
 
         this.enviar.setOnClickListener(new View.OnClickListener() {
@@ -331,18 +341,6 @@ public class ForoActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.all_anime_foro:
-                Intent intent = new Intent(ForoActivity.this, InfoActivity.class);
-                Bundle a = new Bundle();
-                a.putString("id",id);
-                intent.putExtras(a);
-                startActivity(intent);
-                break;
-        }
-    }
 
     public void init() {
 
