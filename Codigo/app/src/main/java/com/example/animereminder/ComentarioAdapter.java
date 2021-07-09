@@ -92,7 +92,6 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
 
         ViewHolder(View itemView) {
             super(itemView);
-            imagen = itemView.findViewById(R.id.Foto_Perfil_Foro);
             //context = itemView.getContext();
             nombre = itemView.findViewById(R.id.nombre_comentario);
             texto = itemView.findViewById(R.id.texto_comentario);

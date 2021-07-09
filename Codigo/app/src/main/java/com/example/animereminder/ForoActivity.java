@@ -345,11 +345,6 @@ public class ForoActivity extends AppCompatActivity  {
     public void init() {
 
         this.elementos = new ArrayList<>();
-        elementos.add(new ComentarioElement("persona1","este es un ejemplo de mensaje1"));
-        elementos.add(new ComentarioElement("persona2", "este es un ejemplo de mensaje2"));
-        elementos.add(new ComentarioElement("persona3", "este es un ejemplo de mensaje3"));
-        elementos.add(new ComentarioElement("persona4", "este es un ejemplo de mensaje4"));
-        elementos.add(new ComentarioElement("persona5", "este es un ejemplo de mensaje5"));
         ComentarioAdapter comentarioAdapter = new ComentarioAdapter(elementos, this);
         this.comentarios = findViewById(R.id.comentarios_Foro);
         this.comentarios.setHasFixedSize(true);
